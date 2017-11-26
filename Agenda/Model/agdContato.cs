@@ -11,7 +11,8 @@ namespace Agenda.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class agdContato
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,12 +25,33 @@ namespace Agenda.Model
     
         public int agdContatoID { get; set; }
         public Nullable<int> agdUsuarioID { get; set; }
+
+
+        [Display(Name = "Contato")]
+        [Required(ErrorMessage = "Esse campo é obrigatório")]
+        [StringLength(100, ErrorMessage = "O campo deve conter no máximo 100 caracteres!!")]
         public string actNome { get; set; }
+
+        [Display(Name = "Sexo")]
+        [Required(ErrorMessage = "Esse campo é obrigatório")]
         public bool actSexo { get; set; }
+
+
         public string actTelefone { get; set; }
+
+        [Display(Name = "Data de Nascimento")]
+        [Required(ErrorMessage = "Esse campo é obrigatório")]
         public System.DateTime actDataNascimento { get; set; }
+
+        [Display(Name = "Endereço Residencial")]
         public string actEndereco { get; set; }
+
+        [Display(Name = "Foto")]
         public string actFoto { get; set; }
+
+        [Display(Name = "Email")]
+        [EmailAddress(ErrorMessage = "Endereço de Email Invalido!!")]
+        [StringLength(254, ErrorMessage = "O campo deve conter no máximo 254 caracteres!!")]
         public string actEmail { get; set; }
     
         public virtual agdUsuario agdUsuario { get; set; }

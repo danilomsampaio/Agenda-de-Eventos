@@ -11,7 +11,8 @@ namespace Agenda.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class agdEvento
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,11 +23,27 @@ namespace Agenda.Model
     
         public int agdEventoID { get; set; }
         public int agdContatoID { get; set; }
+
+        [Display(Name = "Evento")]
+        [Required(ErrorMessage = "Esse campo é obrigatório")]
+        [StringLength(100, ErrorMessage = "O campo deve conter no máximo 100 caracteres!!")]
         public string aevNome { get; set; }
+
+        [Display(Name = "Foto")]
         public string aevFoto { get; set; }
+
+        [Display(Name = "Data/Hora do Evento")]
+        [Required(ErrorMessage = "Esse campo é obrigatório")]
         public System.DateTime aevDataHora { get; set; }
+
+        [Display(Name = "Local do Evento")]
+        [Required(ErrorMessage = "Esse campo é obrigatório")]
         public string aevLocal { get; set; }
+
+
         public string aevDescricao { get; set; }
+
+
         public int agdCategoriaEventoID { get; set; }
     
         public virtual agdCategoriaEvento agdCategoriaEvento { get; set; }

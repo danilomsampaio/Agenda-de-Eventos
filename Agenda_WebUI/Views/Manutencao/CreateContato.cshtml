@@ -1,4 +1,6 @@
-﻿@model Agenda.Model.agdContato
+﻿@using Agenda.Model
+@model agdContato
+
 
 @{
     Layout = null;
@@ -46,22 +48,28 @@
                     </div>
                 </div>
                 <div class="portlet-body form">
+
                     <form action="@Url.Action("CreateContato")" method="post" enctype="multipart/form-data">
-                        <div class="form-body">
-                            <div class="form-group">
-                                <label>Esse contato será um usuário da Agenda?</label>
-                                <div class="actions" id="contatoUsuario">
-                                    <input type="checkbox" class="make-switch" data-on="success" data-on-color="success" data-off-color="warning" data-size="small">
-                                </div>
+                        @Html.AntiForgeryToken()
+
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <label>Esse contato será um usuário da Agenda?</label>
+                            <div class="actions" id="contatoUsuario">
+                                <input type="checkbox" class="make-switch" data-on="success" data-on-color="success" data-off-color="warning" data-size="small">
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <label>Email</label>
+                            @Html.LabelFor(model => model.actEmail)
                             <div class="input-group">
                                 <span class="input-group-addon input-circle-left">
                                     <i class="fa fa-envelope"></i>
                                 </span>
-                                <input type="text" class="form-control input-circle-right" placeholder="Email Address" name="agdContato.actEmail">
+                                @Html.EditorFor(model => model.actEmail, new { htmlAttributes = new { @class = "form-control input-circle-right", placeholder = "Ex: email@email.com" } })
+                                @Html.ValidationMessageFor(model => model.actEmail, "", new { @class = "text-danger" })
+                                @* <input type="text" class="form-control input-circle-right" placeholder="Email Address" name="agdContato.actEmail">*@
                             </div>
                         </div>
 
@@ -78,12 +86,20 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Nome</label>
-                            <div class="input-icon">
-                                <i class="fa fa-bell-o font-green"></i>
-                                <input type="text" name="agdContato.actNome" class="form-control" placeholder="Nome do Contato">
+                            @Html.LabelFor(model => model.actNome)
+                            @*<div class="input-icon">
+                                    <i class="fa fa-bell-o font-green"></i>
+                                    <input type="text" name="agdContato.actNome" class="form-control" placeholder="Nome do Contato">
+                                </div>*@
+                            <div class="input-group">
+                                <span class="input-group-addon input-circle-left">
+                                    <i class="fa fa-users"></i>
+                                </span>
+                                @Html.EditorFor(model => model.actNome, new { htmlAttributes = new { @class = "form-control input-circle-right", placeholder = "Ex: email@email.com" } })
+                                @Html.ValidationMessageFor(model => model.actNome, "", new { @class = "text-danger" })
+                                </div>
                             </div>
-                        </div>
+
                         <div class="form-group">
                             <label>Sexo</label>
                             <select class="form-control" name="agdContato.actSexo">
@@ -91,6 +107,7 @@
                                 <option value="0">Feminino</option>
                             </select>
                         </div>
+
                         <div class="form-group">
                             <label>Telefone</label>
                             <div class="input-icon">
@@ -98,10 +115,12 @@
                                 <input type="text" name="agdContato.actTelefone" class="form-control" placeholder="Left icon">
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label class="control-label">Data de Nascimento</label>
-                            <input class="form-control date-picker" type="text" name="agdContato.actDataNascimento"/>
+                            <input class="form-control date-picker" type="text" name="agdContato.actDataNascimento" />
                         </div>
+
                         <div class="form-group">
                             <label>Endereco</label>
                             <div class="input-icon">
@@ -109,6 +128,7 @@
                                 <input type="text" name="agdContato.actEndereco" class="form-control" placeholder="Left icon">
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label>Foto</label>
                             <div class="input-icon">
@@ -116,11 +136,15 @@
                                 <input type="file" class="form-control" placeholder="Left icon" name="foto">
                             </div>
                         </div>
+
+
                         <div class="form-actions">
                             <button type="submit" class="btn blue">Salvar</button>
                             <a href="@Url.Action("Index", "Home")" class="btn default">Voltar</a>
                         </div>
+
                     </form>
+
                 </div>
             </div>
         </div>
@@ -130,6 +154,10 @@
 
     <div class="copyright"> 2017 © Danilo Maglio Sampaio. </div>
 
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
     <script src="~/Scripts/jquery.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/js.cookie.min.js"></script>

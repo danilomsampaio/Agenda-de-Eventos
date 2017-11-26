@@ -36,18 +36,21 @@ namespace Agenda_WebUI.Controllers
         [HttpPost]
         public ActionResult CreateContato(agdContato agdContato, HttpPostedFileBase foto, agdUsuario agdUsuario)
         {
-
-            agdContato.actFoto = "../Images/" + foto.FileName;
-            _serviceContato.CadastraContato(agdContato);
-
-            if (!String.IsNullOrEmpty(agdUsuario.ausSenha))
+            if (ModelState.IsValid)
             {
-                agdUsuario.ausEmail = agdContato.actEmail;
-                _serviceUsuario.InsereContatoUsuario(_serviceContato.BuscaContatoUsuario(agdContato.actEmail).agdContatoID, agdUsuario);
+                agdContato.actFoto = "../Images/" + foto.FileName;
+                _serviceContato.CadastraContato(agdContato);
 
+                if (!String.IsNullOrEmpty(agdUsuario.ausSenha))
+                {
+                    agdUsuario.ausEmail = agdContato.actEmail;
+                    _serviceUsuario.InsereContatoUsuario(_serviceContato.BuscaContatoUsuario(agdContato.actEmail).agdContatoID, agdUsuario);
+
+                }
+
+                return RedirectToAction("CreateContato");
             }
-
-            return RedirectToAction("CreateContato");
+            return View(agdContato);
         }
 
         [HttpGet]
@@ -59,8 +62,12 @@ namespace Agenda_WebUI.Controllers
         [HttpPost]
         public ActionResult CreateCategoriaEvento(agdCategoriaEvento agdCategoriaEvento)
         {
-            _serviceCategoriaEvento.CriarCategoriaEvento(agdCategoriaEvento);
-            return RedirectToAction("CreateCategoriaEvento");
+            if (ModelState.IsValid)
+            {
+                _serviceCategoriaEvento.CriarCategoriaEvento(agdCategoriaEvento);
+                return RedirectToAction("CreateCategoriaEvento");
+            }
+            return View(agdCategoriaEvento);
         }
     }
 }

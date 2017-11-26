@@ -11,7 +11,8 @@ namespace Agenda.Model
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class agdCategoriaEvento
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,6 +22,10 @@ namespace Agenda.Model
         }
     
         public int agdCategoriaEventoID { get; set; }
+
+        [Display(Name = "Categoria")]
+        [Required(ErrorMessage = "Esse campo é obrigatório")]
+        [StringLength(50, ErrorMessage = "O campo deve conter no máximo 50 caracteres!!")]
         public string aceNome { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
