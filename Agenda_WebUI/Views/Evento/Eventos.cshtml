@@ -1,0 +1,138 @@
+﻿@using Agenda.Model
+@model IEnumerable<agdEvento>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Eventos</title>
+
+    <link href="~/Content/fonte-google.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/simple-line-icons.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-switch.min.css" rel="stylesheet" />
+    <link href="~/Content/components.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins.min.css" rel="stylesheet" />
+    <link href="~/Content/blue.min.css" rel="stylesheet" />
+    <link href="~/Content/layout.min.css" rel="stylesheet" />
+
+</head>
+<body>
+
+    <!-- BEGIN SAMPLE TABLE PORTLET-->
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-comments"></i>Eventos
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="table-scrollable">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.aevNome)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.aevFoto)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.aevDataHora)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.aevLocal)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.aevDescricao)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.agdCategoriaEventoID)
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      @foreach (var item in Model)
+                      {
+                        <tr>
+                            <td>
+                                @Html.HiddenFor(modelItem => item.agdContatoID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.aevNome)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.aevFoto)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.aevDataHora)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.aevLocal)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.aevDescricao)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.agdCategoriaEventoID)
+                            </td>
+                            @{
+                                if (item.aevDataHora.Date > DateTime.Now.Date)
+                                {
+                                    <td>
+                                        <span class="label label-sm label-success"> Futuro </span>
+                                    </td>
+                                }
+
+                                else if (item.aevDataHora.Date == DateTime.Now.Date)
+                                {
+                                    <td>
+                                        <span class="label label-sm label-info"> Ocorrendo </span>
+                                    </td>
+                                }
+
+                                else
+                                {
+                                    <td>
+                                        <span class="label label-sm label-danger"> Finalizado </span>
+                                    </td>
+                                }
+                            }
+                        </tr>
+                      }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+    <script src="~/Scripts/js.cookie.min.js"></script>
+    <script src="~/Scripts/jquery.slimscroll.min.js"></script>
+    <script src="~/Scripts/jquery.blockui.min.js"></script>
+    <script src="~/Scripts/bootstrap-switch.min.js"></script>
+    <script src="~/Scripts/fullcalendar.min.js"></script>
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/app.min.js"></script>
+    <script src="~/Scripts/calendar.js"></script>
+    <script src="~/Scripts/layout.min.js"></script>
+    <script src="~/Scripts/demo.min.js"></script>
+
+</body>
+</html>

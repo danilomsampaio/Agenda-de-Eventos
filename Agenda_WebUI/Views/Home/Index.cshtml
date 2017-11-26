@@ -1,0 +1,175 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+
+    <link href="~/Content/fonte-google.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/simple-line-icons.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-switch.min.css" rel="stylesheet" />
+    <link href="~/Content/fullcalendar.min.css" rel="stylesheet" />
+    <link href="~/Content/components.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins.min.css" rel="stylesheet" />
+    <link href="~/Content/layout.min.css" rel="stylesheet" />
+    <link href="~/Content/blue.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light portlet-fit  calendar">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class=" icon-layers font-green"></i>
+                        <span class="caption-subject font-green sbold uppercase">Agenda</span>
+                    </div>
+                    <button onclick="incluirEvento()" style="margin-left: -70px;" class="btn btn-icon-only green">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-9 col-sm-12">
+                            <div id="calendar" class="has-toolbar">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="copyright"> 2017 © Danilo Maglio Sampaio. </div>
+
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+    <script src="~/Scripts/js.cookie.min.js"></script>
+    <script src="~/Scripts/jquery.slimscroll.min.js"></script>
+    <script src="~/Scripts/jquery.blockui.min.js"></script>
+    <script src="~/Scripts/bootstrap-switch.min.js"></script>
+    <script src="~/Scripts/fullcalendar.min.js"></script>
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/app.min.js"></script>
+    <script src="~/Scripts/calendar.js"></script>
+    <script src="~/Scripts/layout.min.js"></script>
+    <script src="~/Scripts/demo.min.js"></script>
+
+
+
+
+</body>
+</html>
+
+
+<div id="modalEvento" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Cadastrar Evento</h4>
+            </div>
+            <form action="@Url.Action("CreateEvento","Evento")" method="post" class="form-horizontal" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Evento</label>
+                            <div class="col-md-7">
+                                <input type="text" name="agdEvento.aevNome" class="form-control input-circle" placeholder="Nome do Evento">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Foto</label>
+                            <div class="col-md-7">
+                                <div class="input-group">
+                                    <span class="input-group-addon input-circle-left">
+                                        <i class="fa fa-camera"></i>
+                                    </span>
+                                    <input type="file" name="agdEvento.aevFoto" class="form-control input-circle-right" placeholder="Foto do Evento">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Data e Hora</label>
+                            <div class="col-md-7">
+                                <div class="input-group" id="dataHoraEvento">
+                                    <input type="text" name="agdEvento.aevDataHora" class="form-control input-circle-left" placeholder="Data e Hora do evento">
+                                    <span class="input-group-addon input-circle-right">
+                                        <i class="fa fa-calendar "></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Local</label>
+                            <div class="col-md-7">
+                                <div class="input-icon">
+                                    <i class="fa fa-bell-o"></i>
+                                    <input type="text" name="agdEvento.aevLocal" class="form-control input-circle" placeholder="Local do Evento">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Descrição</label>
+                            <div class="col-md-7">
+                                <div class="input-icon right">
+                                    <textarea class="form-control" name="agdEvento.aevDescricao" cols="58" rows="3" placeholder="Ex: Preço do ingresso, bebidas, comidas"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Organizador</label>
+                            <div class="col-md-7">
+                                <select class="form-control" name="categoria">
+                                    <option value="">Opcao1</option>
+                                    <option value="">Opcao2</option>
+                                    <option value="">Opcao3</option>
+                                    <option value="">Opcao4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Categoria</label>
+                            <div class="col-md-7">
+                                <select class="form-control" name="categoria">
+                                    <option value="">Opcao1</option>
+                                    <option value="">Opcao2</option>
+                                    <option value="">Opcao3</option>
+                                    <option value="">Opcao4</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-circle green">Salvar</button>
+                        <button type="button" class="btn btn-circle grey-salsa btn-outline" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        $('#dataHoraEvento').datetimepicker({
+            format: 'DD/MM/YYYY HH:mm'
+        });
+    });
+
+    function incluirEvento() {
+        $('#modalEvento').modal();
+    }
+</script>

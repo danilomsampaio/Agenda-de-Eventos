@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agenda_WebUI", "Agenda_WebUI\Agenda_WebUI.csproj", "{CD95C6F5-6AE2-4382-9CDB-1FA65E88E14E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agenda", "Agenda\Agenda.csproj", "{EB7417DB-F4C4-4C17-ABD8-61C59740D54D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CD95C6F5-6AE2-4382-9CDB-1FA65E88E14E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD95C6F5-6AE2-4382-9CDB-1FA65E88E14E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD95C6F5-6AE2-4382-9CDB-1FA65E88E14E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD95C6F5-6AE2-4382-9CDB-1FA65E88E14E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB7417DB-F4C4-4C17-ABD8-61C59740D54D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB7417DB-F4C4-4C17-ABD8-61C59740D54D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB7417DB-F4C4-4C17-ABD8-61C59740D54D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB7417DB-F4C4-4C17-ABD8-61C59740D54D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35
+		SolutionGuid = {0B2ACF30-B9A3-40C7-8B8F-C690EC448960}
+	EndGlobalSection
+EndGlobal

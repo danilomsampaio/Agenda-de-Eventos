@@ -1,0 +1,434 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AgendaProvaEvoluaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="agdCategoriaEvento">
+          <Key>
+            <PropertyRef Name="agdCategoriaEventoID" />
+          </Key>
+          <Property Name="agdCategoriaEventoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="aceNome" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="agdContato">
+          <Key>
+            <PropertyRef Name="agdContatoID" />
+          </Key>
+          <Property Name="agdContatoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="agdUsuarioID" Type="int" />
+          <Property Name="actNome" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="actSexo" Type="bit" Nullable="false" />
+          <Property Name="actTelefone" Type="varchar" MaxLength="20" />
+          <Property Name="actDataNascimento" Type="date" Nullable="false" />
+          <Property Name="actEndereco" Type="varchar" MaxLength="120" />
+          <Property Name="actFoto" Type="varchar" MaxLength="200" />
+          <Property Name="actEmail" Type="varchar" MaxLength="254" />
+        </EntityType>
+        <EntityType Name="agdConvite">
+          <Key>
+            <PropertyRef Name="agdConviteID" />
+          </Key>
+          <Property Name="agdConviteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="agdContatoIDConvidado" Type="int" Nullable="false" />
+          <Property Name="agdContatoIDEmissor" Type="int" Nullable="false" />
+          <Property Name="agdEventoID" Type="int" Nullable="false" />
+          <Property Name="acvDataHoraEnvio" Type="datetime" Nullable="false" />
+          <Property Name="acvConfirmado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="agdEvento">
+          <Key>
+            <PropertyRef Name="agdEventoID" />
+          </Key>
+          <Property Name="agdEventoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="agdContatoID" Type="int" Nullable="false" />
+          <Property Name="aevNome" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="aevFoto" Type="varchar" MaxLength="200" />
+          <Property Name="aevDataHora" Type="datetime" Nullable="false" />
+          <Property Name="aevLocal" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="aevDescricao" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="agdCategoriaEventoID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="agdUsuario">
+          <Key>
+            <PropertyRef Name="agdUsuarioID" />
+          </Key>
+          <Property Name="agdUsuarioID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ausEmail" Type="varchar" MaxLength="254" Nullable="false" />
+          <Property Name="ausSenha" Type="varchar" MaxLength="12" Nullable="false" />
+        </EntityType>
+        <Association Name="agdContato_agdUsuario_FK">
+          <End Role="agdUsuario" Type="Self.agdUsuario" Multiplicity="0..1" />
+          <End Role="agdContato" Type="Self.agdContato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="agdUsuario">
+              <PropertyRef Name="agdUsuarioID" />
+            </Principal>
+            <Dependent Role="agdContato">
+              <PropertyRef Name="agdUsuarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="agdConvite_agdContato_FK">
+          <End Role="agdContato" Type="Self.agdContato" Multiplicity="1" />
+          <End Role="agdConvite" Type="Self.agdConvite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="agdContato">
+              <PropertyRef Name="agdContatoID" />
+            </Principal>
+            <Dependent Role="agdConvite">
+              <PropertyRef Name="agdContatoIDConvidado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="agdConvite_agdContato_FKv2">
+          <End Role="agdContato" Type="Self.agdContato" Multiplicity="1" />
+          <End Role="agdConvite" Type="Self.agdConvite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="agdContato">
+              <PropertyRef Name="agdContatoID" />
+            </Principal>
+            <Dependent Role="agdConvite">
+              <PropertyRef Name="agdContatoIDEmissor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="agdConvite_agdEvento_FK">
+          <End Role="agdEvento" Type="Self.agdEvento" Multiplicity="1" />
+          <End Role="agdConvite" Type="Self.agdConvite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="agdEvento">
+              <PropertyRef Name="agdEventoID" />
+            </Principal>
+            <Dependent Role="agdConvite">
+              <PropertyRef Name="agdEventoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="agdEvento_agdCategoriaEvento_FK">
+          <End Role="agdCategoriaEvento" Type="Self.agdCategoriaEvento" Multiplicity="1" />
+          <End Role="agdEvento" Type="Self.agdEvento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="agdCategoriaEvento">
+              <PropertyRef Name="agdCategoriaEventoID" />
+            </Principal>
+            <Dependent Role="agdEvento">
+              <PropertyRef Name="agdCategoriaEventoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="agdEvento_agdContato_FK">
+          <End Role="agdContato" Type="Self.agdContato" Multiplicity="1" />
+          <End Role="agdEvento" Type="Self.agdEvento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="agdContato">
+              <PropertyRef Name="agdContatoID" />
+            </Principal>
+            <Dependent Role="agdEvento">
+              <PropertyRef Name="agdContatoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_insereUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="contatoID" Type="int" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="senha" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="AgendaProvaEvoluaModelStoreContainer">
+          <EntitySet Name="agdCategoriaEvento" EntityType="Self.agdCategoriaEvento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="agdContato" EntityType="Self.agdContato" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="agdConvite" EntityType="Self.agdConvite" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="agdEvento" EntityType="Self.agdEvento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="agdUsuario" EntityType="Self.agdUsuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="agdContato_agdUsuario_FK" Association="Self.agdContato_agdUsuario_FK">
+            <End Role="agdUsuario" EntitySet="agdUsuario" />
+            <End Role="agdContato" EntitySet="agdContato" />
+          </AssociationSet>
+          <AssociationSet Name="agdConvite_agdContato_FK" Association="Self.agdConvite_agdContato_FK">
+            <End Role="agdContato" EntitySet="agdContato" />
+            <End Role="agdConvite" EntitySet="agdConvite" />
+          </AssociationSet>
+          <AssociationSet Name="agdConvite_agdContato_FKv2" Association="Self.agdConvite_agdContato_FKv2">
+            <End Role="agdContato" EntitySet="agdContato" />
+            <End Role="agdConvite" EntitySet="agdConvite" />
+          </AssociationSet>
+          <AssociationSet Name="agdConvite_agdEvento_FK" Association="Self.agdConvite_agdEvento_FK">
+            <End Role="agdEvento" EntitySet="agdEvento" />
+            <End Role="agdConvite" EntitySet="agdConvite" />
+          </AssociationSet>
+          <AssociationSet Name="agdEvento_agdCategoriaEvento_FK" Association="Self.agdEvento_agdCategoriaEvento_FK">
+            <End Role="agdCategoriaEvento" EntitySet="agdCategoriaEvento" />
+            <End Role="agdEvento" EntitySet="agdEvento" />
+          </AssociationSet>
+          <AssociationSet Name="agdEvento_agdContato_FK" Association="Self.agdEvento_agdContato_FK">
+            <End Role="agdContato" EntitySet="agdContato" />
+            <End Role="agdEvento" EntitySet="agdEvento" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AgendaProvaEvoluaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="agdCategoriaEvento">
+          <Key>
+            <PropertyRef Name="agdCategoriaEventoID" />
+          </Key>
+          <Property Name="agdCategoriaEventoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="aceNome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="agdEvento" Relationship="Self.agdEvento_agdCategoriaEvento_FK" FromRole="agdCategoriaEvento" ToRole="agdEvento" />
+        </EntityType>
+        <EntityType Name="agdContato">
+          <Key>
+            <PropertyRef Name="agdContatoID" />
+          </Key>
+          <Property Name="agdContatoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="agdUsuarioID" Type="Int32" />
+          <Property Name="actNome" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="actSexo" Type="Boolean" Nullable="false" />
+          <Property Name="actTelefone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="actDataNascimento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="actEndereco" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="actFoto" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="agdUsuario" Relationship="Self.agdContato_agdUsuario_FK" FromRole="agdContato" ToRole="agdUsuario" />
+          <NavigationProperty Name="agdConvite" Relationship="Self.agdConvite_agdContato_FK" FromRole="agdContato" ToRole="agdConvite" />
+          <NavigationProperty Name="agdConvite1" Relationship="Self.agdConvite_agdContato_FKv2" FromRole="agdContato" ToRole="agdConvite" />
+          <NavigationProperty Name="agdEvento" Relationship="Self.agdEvento_agdContato_FK" FromRole="agdContato" ToRole="agdEvento" />
+          <Property Name="actEmail" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="agdConvite">
+          <Key>
+            <PropertyRef Name="agdConviteID" />
+          </Key>
+          <Property Name="agdConviteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="agdContatoIDConvidado" Type="Int32" Nullable="false" />
+          <Property Name="agdContatoIDEmissor" Type="Int32" Nullable="false" />
+          <Property Name="agdEventoID" Type="Int32" Nullable="false" />
+          <Property Name="acvDataHoraEnvio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="acvConfirmado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="agdContato" Relationship="Self.agdConvite_agdContato_FK" FromRole="agdConvite" ToRole="agdContato" />
+          <NavigationProperty Name="agdContato1" Relationship="Self.agdConvite_agdContato_FKv2" FromRole="agdConvite" ToRole="agdContato" />
+          <NavigationProperty Name="agdEvento" Relationship="Self.agdConvite_agdEvento_FK" FromRole="agdConvite" ToRole="agdEvento" />
+        </EntityType>
+        <EntityType Name="agdEvento">
+          <Key>
+            <PropertyRef Name="agdEventoID" />
+          </Key>
+          <Property Name="agdEventoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="agdContatoID" Type="Int32" Nullable="false" />
+          <Property Name="aevNome" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="aevFoto" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="aevDataHora" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="aevLocal" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="aevDescricao" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="agdCategoriaEventoID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="agdCategoriaEvento" Relationship="Self.agdEvento_agdCategoriaEvento_FK" FromRole="agdEvento" ToRole="agdCategoriaEvento" />
+          <NavigationProperty Name="agdContato" Relationship="Self.agdEvento_agdContato_FK" FromRole="agdEvento" ToRole="agdContato" />
+          <NavigationProperty Name="agdConvite" Relationship="Self.agdConvite_agdEvento_FK" FromRole="agdEvento" ToRole="agdConvite" />
+        </EntityType>
+        <EntityType Name="agdUsuario">
+          <Key>
+            <PropertyRef Name="agdUsuarioID" />
+          </Key>
+          <Property Name="agdUsuarioID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ausEmail" Type="String" MaxLength="254" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ausSenha" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="agdContato" Relationship="Self.agdContato_agdUsuario_FK" FromRole="agdUsuario" ToRole="agdContato" />
+        </EntityType>
+        <Association Name="agdEvento_agdCategoriaEvento_FK">
+          <End Role="agdCategoriaEvento" Type="Self.agdCategoriaEvento" Multiplicity="1" />
+          <End Role="agdEvento" Type="Self.agdEvento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="agdCategoriaEvento">
+              <PropertyRef Name="agdCategoriaEventoID" />
+            </Principal>
+            <Dependent Role="agdEvento">
+              <PropertyRef Name="agdCategoriaEventoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="agdContato_agdUsuario_FK">
+          <End Role="agdUsuario" Type="Self.agdUsuario" Multiplicity="0..1" />
+          <End Role="agdContato" Type="Self.agdContato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="agdUsuario">
+              <PropertyRef Name="agdUsuarioID" />
+            </Principal>
+            <Dependent Role="agdContato">
+              <PropertyRef Name="agdUsuarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="agdConvite_agdContato_FK">
+          <End Role="agdContato" Type="Self.agdContato" Multiplicity="1" />
+          <End Role="agdConvite" Type="Self.agdConvite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="agdContato">
+              <PropertyRef Name="agdContatoID" />
+            </Principal>
+            <Dependent Role="agdConvite">
+              <PropertyRef Name="agdContatoIDConvidado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="agdConvite_agdContato_FKv2">
+          <End Role="agdContato" Type="Self.agdContato" Multiplicity="1" />
+          <End Role="agdConvite" Type="Self.agdConvite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="agdContato">
+              <PropertyRef Name="agdContatoID" />
+            </Principal>
+            <Dependent Role="agdConvite">
+              <PropertyRef Name="agdContatoIDEmissor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="agdEvento_agdContato_FK">
+          <End Role="agdContato" Type="Self.agdContato" Multiplicity="1" />
+          <End Role="agdEvento" Type="Self.agdEvento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="agdContato">
+              <PropertyRef Name="agdContatoID" />
+            </Principal>
+            <Dependent Role="agdEvento">
+              <PropertyRef Name="agdContatoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="agdConvite_agdEvento_FK">
+          <End Role="agdEvento" Type="Self.agdEvento" Multiplicity="1" />
+          <End Role="agdConvite" Type="Self.agdConvite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="agdEvento">
+              <PropertyRef Name="agdEventoID" />
+            </Principal>
+            <Dependent Role="agdConvite">
+              <PropertyRef Name="agdEventoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AgendaProvaEvoluaEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="agdCategoriaEvento" EntityType="Self.agdCategoriaEvento" />
+          <EntitySet Name="agdContato" EntityType="Self.agdContato" />
+          <EntitySet Name="agdConvite" EntityType="Self.agdConvite" />
+          <EntitySet Name="agdEvento" EntityType="Self.agdEvento" />
+          <EntitySet Name="agdUsuario" EntityType="Self.agdUsuario" />
+          <AssociationSet Name="agdEvento_agdCategoriaEvento_FK" Association="Self.agdEvento_agdCategoriaEvento_FK">
+            <End Role="agdCategoriaEvento" EntitySet="agdCategoriaEvento" />
+            <End Role="agdEvento" EntitySet="agdEvento" />
+          </AssociationSet>
+          <AssociationSet Name="agdContato_agdUsuario_FK" Association="Self.agdContato_agdUsuario_FK">
+            <End Role="agdUsuario" EntitySet="agdUsuario" />
+            <End Role="agdContato" EntitySet="agdContato" />
+          </AssociationSet>
+          <AssociationSet Name="agdConvite_agdContato_FK" Association="Self.agdConvite_agdContato_FK">
+            <End Role="agdContato" EntitySet="agdContato" />
+            <End Role="agdConvite" EntitySet="agdConvite" />
+          </AssociationSet>
+          <AssociationSet Name="agdConvite_agdContato_FKv2" Association="Self.agdConvite_agdContato_FKv2">
+            <End Role="agdContato" EntitySet="agdContato" />
+            <End Role="agdConvite" EntitySet="agdConvite" />
+          </AssociationSet>
+          <AssociationSet Name="agdEvento_agdContato_FK" Association="Self.agdEvento_agdContato_FK">
+            <End Role="agdContato" EntitySet="agdContato" />
+            <End Role="agdEvento" EntitySet="agdEvento" />
+          </AssociationSet>
+          <AssociationSet Name="agdConvite_agdEvento_FK" Association="Self.agdConvite_agdEvento_FK">
+            <End Role="agdEvento" EntitySet="agdEvento" />
+            <End Role="agdConvite" EntitySet="agdConvite" />
+          </AssociationSet>
+          <FunctionImport Name="sp_insereUsuario">
+            <Parameter Name="contatoID" Mode="In" Type="Int32" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="senha" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AgendaProvaEvoluaModelStoreContainer" CdmEntityContainer="AgendaProvaEvoluaEntities1">
+          <EntitySetMapping Name="agdCategoriaEvento">
+            <EntityTypeMapping TypeName="AgendaProvaEvoluaModel.agdCategoriaEvento">
+              <MappingFragment StoreEntitySet="agdCategoriaEvento">
+                <ScalarProperty Name="agdCategoriaEventoID" ColumnName="agdCategoriaEventoID" />
+                <ScalarProperty Name="aceNome" ColumnName="aceNome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="agdContato">
+            <EntityTypeMapping TypeName="AgendaProvaEvoluaModel.agdContato">
+              <MappingFragment StoreEntitySet="agdContato">
+                <ScalarProperty Name="actEmail" ColumnName="actEmail" />
+                <ScalarProperty Name="agdContatoID" ColumnName="agdContatoID" />
+                <ScalarProperty Name="agdUsuarioID" ColumnName="agdUsuarioID" />
+                <ScalarProperty Name="actNome" ColumnName="actNome" />
+                <ScalarProperty Name="actSexo" ColumnName="actSexo" />
+                <ScalarProperty Name="actTelefone" ColumnName="actTelefone" />
+                <ScalarProperty Name="actDataNascimento" ColumnName="actDataNascimento" />
+                <ScalarProperty Name="actEndereco" ColumnName="actEndereco" />
+                <ScalarProperty Name="actFoto" ColumnName="actFoto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="agdConvite">
+            <EntityTypeMapping TypeName="AgendaProvaEvoluaModel.agdConvite">
+              <MappingFragment StoreEntitySet="agdConvite">
+                <ScalarProperty Name="agdConviteID" ColumnName="agdConviteID" />
+                <ScalarProperty Name="agdContatoIDConvidado" ColumnName="agdContatoIDConvidado" />
+                <ScalarProperty Name="agdContatoIDEmissor" ColumnName="agdContatoIDEmissor" />
+                <ScalarProperty Name="agdEventoID" ColumnName="agdEventoID" />
+                <ScalarProperty Name="acvDataHoraEnvio" ColumnName="acvDataHoraEnvio" />
+                <ScalarProperty Name="acvConfirmado" ColumnName="acvConfirmado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="agdEvento">
+            <EntityTypeMapping TypeName="AgendaProvaEvoluaModel.agdEvento">
+              <MappingFragment StoreEntitySet="agdEvento">
+                <ScalarProperty Name="agdEventoID" ColumnName="agdEventoID" />
+                <ScalarProperty Name="agdContatoID" ColumnName="agdContatoID" />
+                <ScalarProperty Name="aevNome" ColumnName="aevNome" />
+                <ScalarProperty Name="aevFoto" ColumnName="aevFoto" />
+                <ScalarProperty Name="aevDataHora" ColumnName="aevDataHora" />
+                <ScalarProperty Name="aevLocal" ColumnName="aevLocal" />
+                <ScalarProperty Name="aevDescricao" ColumnName="aevDescricao" />
+                <ScalarProperty Name="agdCategoriaEventoID" ColumnName="agdCategoriaEventoID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="agdUsuario">
+            <EntityTypeMapping TypeName="AgendaProvaEvoluaModel.agdUsuario">
+              <MappingFragment StoreEntitySet="agdUsuario">
+                <ScalarProperty Name="agdUsuarioID" ColumnName="agdUsuarioID" />
+                <ScalarProperty Name="ausEmail" ColumnName="ausEmail" />
+                <ScalarProperty Name="ausSenha" ColumnName="ausSenha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_insereUsuario" FunctionName="AgendaProvaEvoluaModel.Store.sp_insereUsuario" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

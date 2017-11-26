@@ -1,0 +1,80 @@
+﻿@using Agenda_WebUI.Models
+@model LoginViewModel
+@{
+    Layout = null;
+    ViewBag.Title = "Agenda - Acesso";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/bootstrap-switch.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/components.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/fonte-google.css" rel="stylesheet" />
+    <link href="~/Content/login.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins.min.css" rel="stylesheet" />
+    <link href="~/Content/select2-bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/select2.min.css" rel="stylesheet" />
+    <link href="~/Content/simple-line-icons.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+
+</head>
+
+<body class=" login">
+    <!-- BEGIN LOGO -->
+    <div class="logo">
+        <h1 style="text-decoration: solid;"><span style="color: #17646b;">Age</span><span style="color: #fff;">nda</span></h1>
+    </div>
+    <!-- END LOGO -->
+    <!-- BEGIN LOGIN -->
+    <div class="content">
+        <!-- BEGIN LOGIN FORM -->
+        <form class="login-form" action="@Url.Action("Index", "Home")" method="post">
+            <h3 class="form-title font-green">Acessar</h3>
+            <div class="alert alert-danger display-hide">
+                <button class="close" data-close="alert"></button>
+                <span> Entre com o usuário e a senha. </span>
+            </div>
+            <div class="form-group">
+                <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                <!--<label class="control-label visible-ie8 visible-ie9">Username</label>-->
+                <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="Usuario" name="username" />
+            </div>
+            <div class="form-group">
+                <label class="control-label visible-ie8 visible-ie9">Senha</label>
+                <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="Senha" name="password" />
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn green uppercase">Entrar</button>
+                <a href="javascript:;" id="forget-password" class="forget-password">Esqueceu a senha?</a>
+            </div>
+        </form>
+    </div>
+        <!-- END LOGIN FORM -->
+        <!-- BEGIN FORGOT PASSWORD FORM -->
+
+
+    <div class="copyright"> 2017 © Danilo Maglio Sampaio. </div>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/js.cookie.min.js"></script>
+    <script src="~/Scripts/jquery.slimscroll.min.js"></script>
+    <script src="~/Scripts/jquery.blockui.min.js"></script>
+    <script src="~/Scripts/bootstrap-switch.min.js"></script>
+    <script src="~/Scripts/additional-methods.min.js"></script>
+    <script src="~/Scripts/select2.full.min.js"></script>
+    <script src="~/Scripts/app.min.js"></script>
+    <script src="~/Scripts/login.min.js"></script>
+</body>
+</html>
