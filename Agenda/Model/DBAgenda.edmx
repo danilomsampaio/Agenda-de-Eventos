@@ -11,6 +11,7 @@
           </Key>
           <Property Name="agdCategoriaEventoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="aceNome" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="aceCor" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="agdContato">
           <Key>
@@ -177,6 +178,7 @@
           <Property Name="agdCategoriaEventoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="aceNome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="agdEvento" Relationship="Self.agdEvento_agdCategoriaEvento_FK" FromRole="agdCategoriaEvento" ToRole="agdEvento" />
+          <Property Name="aceCor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="agdContato">
           <Key>
@@ -352,6 +354,7 @@
           <EntitySetMapping Name="agdCategoriaEvento">
             <EntityTypeMapping TypeName="AgendaProvaEvoluaModel.agdCategoriaEvento">
               <MappingFragment StoreEntitySet="agdCategoriaEvento">
+                <ScalarProperty Name="aceCor" ColumnName="aceCor" />
                 <ScalarProperty Name="agdCategoriaEventoID" ColumnName="agdCategoriaEventoID" />
                 <ScalarProperty Name="aceNome" ColumnName="aceNome" />
               </MappingFragment>

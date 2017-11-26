@@ -20,14 +20,17 @@ namespace Agenda.Model
         {
             this.agdEvento = new HashSet<agdEvento>();
         }
-    
+
         public int agdCategoriaEventoID { get; set; }
 
         [Display(Name = "Categoria")]
         [Required(ErrorMessage = "Esse campo é obrigatório")]
         [StringLength(50, ErrorMessage = "O campo deve conter no máximo 50 caracteres!!")]
         public string aceNome { get; set; }
-    
+
+        [Display(Name = "Cor")]
+        public string aceCor { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<agdEvento> agdEvento { get; set; }
     }

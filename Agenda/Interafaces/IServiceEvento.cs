@@ -14,5 +14,8 @@ namespace Agenda.Interafaces
 
         //metodo de criação de novos eventos, recebe um objeto evento e insere no banco de dados
         void CriarEvento(agdEvento agdEvento);
+
+        //metodo que busca todas os eventos já cadastradas no banco de dados no intervalo das datas informadas
+        IList<agdEvento>RetornaEventosPorData(DateTime dataHoraInicio, DateTime dataHoraFim);
     }
 }

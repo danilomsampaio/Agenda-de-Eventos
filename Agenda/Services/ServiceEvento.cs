@@ -25,5 +25,12 @@ namespace Agenda.Services
             db.agdEvento.Add(agdEvento);
             db.SaveChanges();
         }
+
+        public IList<agdEvento> RetornaEventosPorData(DateTime dataHoraInicio, DateTime dataHoraFim)
+        {
+            return db.agdEvento
+                .Where(x => x.aevDataHora >= dataHoraInicio && x.aevDataHora <= dataHoraFim)
+                .ToList();
+        }
     }
 }

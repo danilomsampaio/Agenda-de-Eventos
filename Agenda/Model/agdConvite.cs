@@ -11,7 +11,7 @@ namespace Agenda.Model
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class agdConvite
     {
         public int agdConviteID { get; set; }
@@ -20,7 +20,7 @@ namespace Agenda.Model
         public int agdEventoID { get; set; }
         public System.DateTime acvDataHoraEnvio { get; set; }
         public bool acvConfirmado { get; set; }
-    
+
         public virtual agdContato agdContato { get; set; }
         public virtual agdContato agdContato1 { get; set; }
         public virtual agdEvento agdEvento { get; set; }

@@ -12,7 +12,7 @@ namespace Agenda.Model
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+
     public partial class agdUsuario
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,7 +20,7 @@ namespace Agenda.Model
         {
             this.agdContato = new HashSet<agdContato>();
         }
-    
+
         public int agdUsuarioID { get; set; }
 
         [Display(Name = "Email")]
@@ -34,7 +34,7 @@ namespace Agenda.Model
         [Display(Name = "Senha")]
         [StringLength(12, MinimumLength = 6, ErrorMessage = "O campo deve conter entre 6 a 12 caracteres!!")]
         public string ausSenha { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<agdContato> agdContato { get; set; }
     }

@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Agenda.Model.agdEvento
+
+@{
     ViewBag.Title = "Home Page";
     Layout = null;
 }
@@ -79,76 +81,87 @@
             <div class="modal-header">
                 <h4 class="modal-title">Cadastrar Evento</h4>
             </div>
-            <form action="@Url.Action("CreateEvento","Evento")" method="post" class="form-horizontal" enctype="multipart/form-data">
+
+            <form action="@Url.Action("CreateEvento")" method="post" class="form-horizontal" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+
                 <div class="modal-body">
                     <div class="form-body">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Evento</label>
+                            @Html.LabelFor(model => model.aevNome, new { @class = "col-md-3 control-label" })
                             <div class="col-md-7">
-                                <input type="text" name="agdEvento.aevNome" class="form-control input-circle" placeholder="Nome do Evento">
+                                @Html.EditorFor(model => model.aevNome, new { htmlAttributes = new { @class = "form-control input-circle-left", placeholder = "Nome do Evento" } })
+                                @Html.ValidationMessageFor(model => model.aevNome, "", new { @class = "text-danger" })
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Foto</label>
+                            @Html.LabelFor(model => model.aevFoto, new { @class = "col-md-3 control-label" })
                             <div class="col-md-7">
                                 <div class="input-group">
                                     <span class="input-group-addon input-circle-left">
                                         <i class="fa fa-camera"></i>
                                     </span>
-                                    <input type="file" name="agdEvento.aevFoto" class="form-control input-circle-right" placeholder="Foto do Evento">
+                                    <input type="file" class="form-control" placeholder="Left icon" name="foto">
                                 </div>
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Data e Hora</label>
+                            @Html.LabelFor(model => model.aevDataHora, new { @class = "col-md-3 control-label" })
                             <div class="col-md-7">
                                 <div class="input-group" id="dataHoraEvento">
-                                    <input type="text" name="agdEvento.aevDataHora" class="form-control input-circle-left" placeholder="Data e Hora do evento">
+                                    @Html.EditorFor(model => model.aevDataHora, new { htmlAttributes = new { @class = "form-control input-circle-left", placeholder = "Nome do Evento" } })
+                                    @Html.ValidationMessageFor(model => model.aevDataHora, "", new { @class = "text-danger" })
                                     <span class="input-group-addon input-circle-right">
-                                        <i class="fa fa-calendar "></i>
+                                        <i class="fa fa-calendar"></i>
                                     </span>
                                 </div>
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Local</label>
+                            @Html.LabelFor(model => model.aevLocal, new { @class = "col-md-3 control-label" })
                             <div class="col-md-7">
-                                <div class="input-icon">
-                                    <i class="fa fa-bell-o"></i>
-                                    <input type="text" name="agdEvento.aevLocal" class="form-control input-circle" placeholder="Local do Evento">
-                                </div>
+                                    @Html.EditorFor(model => model.aevLocal, new { htmlAttributes = new { @class = "form-control input-circle", placeholder = "Nome do Evento" } })
+                                    @Html.ValidationMessageFor(model => model.aevLocal, "", new { @class = "text-danger" })
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Descrição</label>
+                            @Html.LabelFor(model => model.aevDescricao, new { @class = "col-md-3 control-label" })
                             <div class="col-md-7">
-                                <div class="input-icon right">
-                                    <textarea class="form-control" name="agdEvento.aevDescricao" cols="58" rows="3" placeholder="Ex: Preço do ingresso, bebidas, comidas"></textarea>
-                                </div>
+                                @Html.TextAreaFor(model => model.aevDescricao, new { @class = "form-control", placeholder = "Nome do Evento" })
+                                @Html.ValidationMessageFor(model => model.aevDescricao, "", new { @class = "text-danger" })
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label class="col-md-3 control-label">Organizador</label>
                             <div class="col-md-7">
-                                <select class="form-control" name="categoria">
-                                    <option value="">Opcao1</option>
-                                    <option value="">Opcao2</option>
-                                    <option value="">Opcao3</option>
-                                    <option value="">Opcao4</option>
+                                <select class="form-control" name="agdContatoID"> 
+                                    @foreach (var contato in ViewBag.Contato)
+                                    {
+                                        <option value="@contato.agdContatoID">@contato.actNome</option>
+                                    }
                                 </select>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label class="col-md-3 control-label">Categoria</label>
                             <div class="col-md-7">
-                                <select class="form-control" name="categoria">
-                                    <option value="">Opcao1</option>
-                                    <option value="">Opcao2</option>
-                                    <option value="">Opcao3</option>
-                                    <option value="">Opcao4</option>
+                                <select class="form-control" name="agdCategoriaEventoID">
+                                    @foreach (var categoria in ViewBag.Categoria)
+                                    {
+                                        <option value="@categoria.agdCategoriaEventoID">@categoria.aceNome</option>
+                                    }
                                 </select>
                             </div>
                         </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-circle green">Salvar</button>
@@ -161,6 +174,19 @@
     </div>
 </div>
 
+@{ 
+    var listaEventos = new List<Agenda.Model.agdEvento>();
+
+    var listaEventosTotal = ViewBag.Eventos;
+
+    for (var i = 0; i < listaEventosTotal.Count; i++)
+    {
+        if (ViewBag.Eventos[i].aevDataHora.Month == DateTime.Now.Month)
+        {
+            listaEventos.Add(ViewBag.Eventos[i]);
+        }
+    }
+}
 
 <script type="text/javascript">
     $(function () {
@@ -172,4 +198,57 @@
     function incluirEvento() {
         $('#modalEvento').modal();
     }
+
+    $(document).ready(function () {
+        [{
+            title: "All Day Event",
+            start: new Date(n, a, 1),
+            backgroundColor: App.getBrandColor("yellow")
+        }, {
+            title: "Long Event",
+            start: new Date(n, a, t - 5),
+            end: new Date(n, a, t - 2),
+            backgroundColor: App.getBrandColor("green")
+        }, {
+            title: "Repeating Event",
+            start: new Date(n, a, t - 3, 16, 0),
+            allDay: !1,
+            backgroundColor: App.getBrandColor("red")
+        }, {
+            title: "Repeating Event",
+            start: new Date(n, a, t + 4, 16, 0),
+            allDay: !1,
+            backgroundColor: App.getBrandColor("green")
+        }, {
+            title: "Meeting",
+            start: new Date(n, a, t, 10, 30),
+            allDay: !1
+        }, {
+            title: "Lunch",
+            start: new Date(n, a, t, 12, 0),
+            end: new Date(n, a, t, 14, 0),
+            backgroundColor: App.getBrandColor("grey"),
+            allDay: !1
+        }, {
+            title: "Birthday Party",
+            start: new Date(n, a, t + 1, 19, 0),
+            end: new Date(n, a, t + 1, 22, 30),
+            backgroundColor: App.getBrandColor("purple"),
+            allDay: !1
+        }, {
+            title: "Click for Google",
+            start: new Date(n, a, 28),
+            end: new Date(n, a, 29),
+            backgroundColor: App.getBrandColor("yellow"),
+            url: "http://google.com/"
+        }]
+
+
+        for (var i = 0; i < listaEventos.lenght; i++) {
+
+        }
+
+
+        AppCalendar.init();
+    });
 </script>

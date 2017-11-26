@@ -22,7 +22,7 @@ namespace Agenda.Model
             this.agdConvite1 = new HashSet<agdConvite>();
             this.agdEvento = new HashSet<agdEvento>();
         }
-    
+
         public int agdContatoID { get; set; }
         public Nullable<int> agdUsuarioID { get; set; }
 
@@ -53,7 +53,7 @@ namespace Agenda.Model
         [EmailAddress(ErrorMessage = "Endereço de Email Invalido!!")]
         [StringLength(254, ErrorMessage = "O campo deve conter no máximo 254 caracteres!!")]
         public string actEmail { get; set; }
-    
+
         public virtual agdUsuario agdUsuario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<agdConvite> agdConvite { get; set; }

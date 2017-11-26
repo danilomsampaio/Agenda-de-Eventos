@@ -24,7 +24,41 @@
 
 </head>
 <body>
+    <div class="row text-center">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="portlet-body form">
+                <form action="@Url.Action("Eventos")" method="get">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Data Inicial</label>
+                        <div class="col-md-7">
+                            <div class="input-group" id="dataHoraInicio">
+                                <input class="form-control input-circle-left" placeholder="Nome do Evento" type="text" name="dataHoraInicio" />
+                                <span class="input-group-addon input-circle-right">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Data Final</label>
+                        <div class="col-md-7">
+                            <div class="input-group" id="dataHoraFim">
+                                <input class="form-control input-circle-left" placeholder="Nome do Evento" type="text" name="dataHoraFim" />
+                                <span class="input-group-addon input-circle-right">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn blue">Filtrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
+    </div>
     <!-- BEGIN SAMPLE TABLE PORTLET-->
     <div class="portlet box green">
         <div class="portlet-title">
@@ -64,54 +98,54 @@
                         </tr>
                     </thead>
                     <tbody>
-                      @foreach (var item in Model)
-                      {
-                        <tr>
-                            <td>
-                                @Html.HiddenFor(modelItem => item.agdContatoID)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.aevNome)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.aevFoto)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.aevDataHora)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.aevLocal)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.aevDescricao)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.agdCategoriaEventoID)
-                            </td>
-                            @{
-                                if (item.aevDataHora.Date > DateTime.Now.Date)
-                                {
-                                    <td>
-                                        <span class="label label-sm label-success"> Futuro </span>
-                                    </td>
-                                }
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.HiddenFor(modelItem => item.agdContatoID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.aevNome)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.aevFoto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.aevDataHora)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.aevLocal)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.aevDescricao)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.agdCategoriaEventoID)
+                                </td>
+                                @{
+                                    if (item.aevDataHora.Date > DateTime.Now.Date)
+                                    {
+                                        <td>
+                                            <span class="label label-sm label-success"> Futuro </span>
+                                        </td>
+                                    }
 
-                                else if (item.aevDataHora.Date == DateTime.Now.Date)
-                                {
-                                    <td>
-                                        <span class="label label-sm label-info"> Ocorrendo </span>
-                                    </td>
-                                }
+                                    else if (item.aevDataHora.Date == DateTime.Now.Date)
+                                    {
+                                        <td>
+                                            <span class="label label-sm label-info"> Ocorrendo </span>
+                                        </td>
+                                    }
 
-                                else
-                                {
-                                    <td>
-                                        <span class="label label-sm label-danger"> Finalizado </span>
-                                    </td>
+                                    else
+                                    {
+                                        <td>
+                                            <span class="label label-sm label-danger"> Finalizado </span>
+                                        </td>
+                                    }
                                 }
-                            }
-                        </tr>
-                      }
+                            </tr>
+                                    }
                     </tbody>
                 </table>
             </div>
@@ -134,5 +168,16 @@
     <script src="~/Scripts/layout.min.js"></script>
     <script src="~/Scripts/demo.min.js"></script>
 
+
+    <script type="text/javascript">
+        $(function () {
+            $('#dataHoraInicio').datetimepicker({
+                format: 'DD/MM/YYYY HH:mm'
+            });
+            $('#dataHoraFim').datetimepicker({
+                format: 'DD/MM/YYYY HH:mm'
+            });
+        });
+    </script>
 </body>
 </html>

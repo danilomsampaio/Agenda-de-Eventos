@@ -20,7 +20,7 @@ namespace Agenda.Model
         {
             this.agdConvite = new HashSet<agdConvite>();
         }
-    
+
         public int agdEventoID { get; set; }
         public int agdContatoID { get; set; }
 
@@ -45,7 +45,7 @@ namespace Agenda.Model
 
 
         public int agdCategoriaEventoID { get; set; }
-    
+
         public virtual agdCategoriaEvento agdCategoriaEvento { get; set; }
         public virtual agdContato agdContato { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
