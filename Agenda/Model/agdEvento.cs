@@ -13,15 +13,8 @@ namespace Agenda.Model
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-
     public partial class agdEvento
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public agdEvento()
-        {
-            this.agdConvite = new HashSet<agdConvite>();
-        }
-
         public int agdEventoID { get; set; }
         public int agdContatoID { get; set; }
 
@@ -51,7 +44,5 @@ namespace Agenda.Model
 
         public virtual agdContato agdContato { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<agdConvite> agdConvite { get; set; }
     }
 }

@@ -29,7 +29,6 @@ namespace Agenda.Model
     
         public virtual DbSet<agdCategoriaEvento> agdCategoriaEvento { get; set; }
         public virtual DbSet<agdContato> agdContato { get; set; }
-        public virtual DbSet<agdConvite> agdConvite { get; set; }
         public virtual DbSet<agdEvento> agdEvento { get; set; }
         public virtual DbSet<agdUsuario> agdUsuario { get; set; }
     

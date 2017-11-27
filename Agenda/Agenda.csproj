@@ -64,9 +64,6 @@
     <Compile Include="Model\agdContato.cs">
       <DependentUpon>DBAgenda.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\agdConvite.cs">
-      <DependentUpon>DBAgenda.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\agdEvento.cs">
       <DependentUpon>DBAgenda.tt</DependentUpon>
     </Compile>

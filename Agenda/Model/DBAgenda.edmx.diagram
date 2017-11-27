@@ -7,15 +7,11 @@
       <Diagram DiagramId="f96985562ea04e7f958b9eac327329ec" Name="Diagram1">
         <EntityTypeShape EntityType="AgendaProvaEvoluaModel.agdCategoriaEvento" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AgendaProvaEvoluaModel.agdContato" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AgendaProvaEvoluaModel.agdConvite" Width="1.5" PointX="5.25" PointY="3.125" IsExpanded="true" />
         <EntityTypeShape EntityType="AgendaProvaEvoluaModel.agdEvento" Width="1.5" PointX="8.25" PointY="3" IsExpanded="true" />
         <EntityTypeShape EntityType="AgendaProvaEvoluaModel.agdUsuario" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
         <AssociationConnector Association="AgendaProvaEvoluaModel.agdEvento_agdCategoriaEvento_FK" ManuallyRouted="false" />
         <AssociationConnector Association="AgendaProvaEvoluaModel.agdContato_agdUsuario_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="AgendaProvaEvoluaModel.agdConvite_agdContato_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="AgendaProvaEvoluaModel.agdConvite_agdContato_FKv2" ManuallyRouted="false" />
         <AssociationConnector Association="AgendaProvaEvoluaModel.agdEvento_agdContato_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="AgendaProvaEvoluaModel.agdConvite_agdEvento_FK" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

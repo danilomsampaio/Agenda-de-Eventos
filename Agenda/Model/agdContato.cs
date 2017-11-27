@@ -18,8 +18,6 @@ namespace Agenda.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public agdContato()
         {
-            this.agdConvite = new HashSet<agdConvite>();
-            this.agdConvite1 = new HashSet<agdConvite>();
             this.agdEvento = new HashSet<agdEvento>();
         }
 
@@ -55,10 +53,6 @@ namespace Agenda.Model
         public string actEmail { get; set; }
 
         public virtual agdUsuario agdUsuario { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<agdConvite> agdConvite { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<agdConvite> agdConvite1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<agdEvento> agdEvento { get; set; }
     }
