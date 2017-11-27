@@ -14,23 +14,34 @@ namespace Agenda_WebUI.Controllers
         private IServiceContato _serviceContato;
         private IServiceCategoriaEvento _serviceCategoriaEvento;
         private IServiceEvento _serviceEvento;
+        private IServiceUsuario _serviceUsuario;
 
         public HomeController(
             IServiceCategoriaEvento serviceCategoriaEvento, 
             IServiceContato serviceContato,
-            IServiceEvento serviceEvento)
+            IServiceEvento serviceEvento,
+            IServiceUsuario serviceUsuario)
         {
             _serviceCategoriaEvento = serviceCategoriaEvento;
             _serviceContato = serviceContato;
             _serviceEvento = serviceEvento;
+            _serviceUsuario = serviceUsuario;
         }
 
         public ActionResult Index()
         {
-            ViewBag.Categoria = _serviceCategoriaEvento.BuscaCategorias();
-            ViewBag.Contato = _serviceContato.BuscaContatos();
-            
-            return View();
+            if (Session["usuarioLogadoID"] != null)
+            {
+                ViewBag.Categoria = _serviceCategoriaEvento.BuscaCategorias();
+                ViewBag.Contato = _serviceContato.BuscaContatos();
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+
         }
 
         [HttpPost]
@@ -61,9 +72,6 @@ namespace Agenda_WebUI.Controllers
                     DataHoraEvento = Convert.ToString(item.aevDataHora)
                 });
             }
-
-
-
             return Json(new {
                 lista = listaEvento
             }, JsonRequestBehavior.AllowGet);
@@ -79,6 +87,38 @@ namespace Agenda_WebUI.Controllers
                 if(!string.IsNullOrEmpty(id))
                     _serviceEvento.RemoveEvento(Int32.Parse(id));
             }
+        }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(agdUsuario usuario)
+        {
+            if (ModelState.IsValid)
+            {
+                var v = _serviceUsuario.UsuarioLogin(usuario);
+                if (v != null ||( usuario.ausEmail == "admin@admin.com" && usuario.ausSenha == "admin"))
+                {
+                    //permitir usuario admin
+                    if (usuario.ausEmail == "admin@admin.com" && usuario.ausSenha == "admin")
+                    {
+                        v = new agdUsuario {
+                            agdUsuarioID = 0,
+                            ausEmail = "admin@admin.com",
+                            ausSenha = "admin"
+                        };
+                    }
+                    Session["usuarioLogadoID"] = v.agdUsuarioID.ToString();
+                    Session["nomeUsuarioLogado"] = v.ausEmail.ToString();
+                    return RedirectToAction("Index");
+                }
+            }
+            return View(usuario);
         }
     }
 }

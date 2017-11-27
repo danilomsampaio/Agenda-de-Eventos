@@ -32,7 +32,7 @@ namespace Agenda.Model
         [Required(ErrorMessage = "Esse campo é obrigatório")]
         [DataType(DataType.Password)]
         [Display(Name = "Senha")]
-        [StringLength(12, MinimumLength = 6, ErrorMessage = "O campo deve conter entre 6 a 12 caracteres!!")]
+        [StringLength(12, MinimumLength = 4, ErrorMessage = "O campo deve conter entre 4 a 12 caracteres!!")]
         public string ausSenha { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

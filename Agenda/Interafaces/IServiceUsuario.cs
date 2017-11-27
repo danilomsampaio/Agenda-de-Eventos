@@ -13,5 +13,7 @@ namespace Agenda.Interafaces
         //dependendo da opção escolhida
         //usuario do sistema? sim ou nao
         void InsereContatoUsuario(Nullable<int> contatoID, agdUsuario agdUsuario);
+
+        agdUsuario UsuarioLogin(agdUsuario agdUsuario);
     }
 }

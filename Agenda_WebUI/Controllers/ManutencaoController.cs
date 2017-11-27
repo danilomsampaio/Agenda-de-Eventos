@@ -30,7 +30,14 @@ namespace Agenda_WebUI.Controllers
         [HttpGet]
         public ActionResult CreateContato()
         {
-            return View();
+            if (Session["usuarioLogadoID"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Home");
+            }
         }
 
         [HttpPost]
@@ -56,7 +63,14 @@ namespace Agenda_WebUI.Controllers
         [HttpGet]
         public ActionResult CreateCategoriaEvento()
         {
-            return View();
+            if (Session["usuarioLogadoID"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Home");
+            }
         }
 
         [HttpPost]

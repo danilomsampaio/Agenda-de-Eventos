@@ -19,5 +19,11 @@ namespace Agenda.Services
             db.sp_insereUsuario(contatoID, agdUsuario.ausEmail, agdUsuario.ausSenha);
             db.SaveChanges();
         }
+
+        public agdUsuario UsuarioLogin(agdUsuario agdUsuario)
+        {
+            return db.agdUsuario.Where(a => a.ausEmail.Equals(agdUsuario.ausEmail) && a.ausSenha.Equals(agdUsuario.ausSenha)).FirstOrDefault();
+        }
     }
 }
+
