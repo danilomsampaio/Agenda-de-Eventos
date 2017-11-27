@@ -39,5 +39,10 @@ namespace Agenda.Services
             db.agdEvento.Remove(agdEvento);
             db.SaveChanges();
         }
+
+        public string BuscaNomeEvento(int idEvento)
+        {
+            return db.agdEvento.Find(idEvento).aevNome; 
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model Agenda.Model.agdEvento
 
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Agenda - Home";
     Layout = null;
 }
 <!DOCTYPE html>
@@ -33,6 +33,14 @@
 </head>
 
 <body>
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li>@Html.ActionLink("Agenda", "Index", "Home")</li>
+            <li>@Html.ActionLink("Lista de Eventos", "Eventos", "Evento")</li>
+            <li>@Html.ActionLink("Criar Categoria de Evento", "CreateCategoriaEvento", "Manutencao")</li>
+            <li>@Html.ActionLink("Criar Novo Contato", "CreateContato", "Manutencao")</li>
+        </ul>
+    </div>
     <div class="row">
         <div class="col-md-12">
             <div class="portlet light portlet-fit  calendar">
@@ -65,10 +73,6 @@
             </div>
         </div>
     </div>
-
-    <div class="copyright"> 2017 © Danilo Maglio Sampaio. </div>
-
-
 
 
 
@@ -110,7 +114,7 @@
                                 @Html.LabelFor(model => model.aevDataHora, new { @class = "col-md-3 control-label" })
                                 <div class="col-md-7">
                                     <div class="input-group" id="dataHoraEvento">
-                                        @Html.EditorFor(model => model.aevDataHora, new { htmlAttributes = new { @class = "form-control input-circle-left", placeholder = "Nome do Evento" } })
+                                        @Html.EditorFor(model => model.aevDataHora, new { htmlAttributes = new { @class = "form-control input-circle-left", placeholder = "Data e Hora" } })
                                         @Html.ValidationMessageFor(model => model.aevDataHora, "", new { @class = "text-danger" })
                                         <span class="input-group-addon input-circle-right">
                                             <i class="fa fa-calendar"></i>
@@ -122,7 +126,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.aevLocal, new { @class = "col-md-3 control-label" })
                                 <div class="col-md-7">
-                                    @Html.EditorFor(model => model.aevLocal, new { htmlAttributes = new { @class = "form-control input-circle", placeholder = "Nome do Evento" } })
+                                    @Html.EditorFor(model => model.aevLocal, new { htmlAttributes = new { @class = "form-control input-circle", placeholder = "Local do Evento" } })
                                     @Html.ValidationMessageFor(model => model.aevLocal, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -130,7 +134,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.aevDescricao, new { @class = "col-md-3 control-label" })
                                 <div class="col-md-7">
-                                    @Html.TextAreaFor(model => model.aevDescricao, new { @class = "form-control", placeholder = "Nome do Evento" })
+                                    @Html.TextAreaFor(model => model.aevDescricao, new { @class = "form-control", placeholder = "Descricao do Evento" })
                                     @Html.ValidationMessageFor(model => model.aevDescricao, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -197,17 +201,13 @@
     }
 
     function removerEventos() {
-        console.log($('.ativo'));
-
-
-
         $('.ativo').hide();
 
         var itens = "";
 
         $('.ativo').each(function () {
             $(this).removeClass('ativo');
-            
+
             itens += $($(this).children().children()[1]).html().substring(0, $($(this).children().children()[1]).html().indexOf('-') - 1) + ",";
         });
 
@@ -216,10 +216,22 @@
             dataType: "json",
             data: { itens : itens }
         });
-    }
-    //falta implementar
-    function notificarEventos() {
+        }
 
+        function notificarEventos() {
+            var itens = "";
+
+          $('.ativo').each(function () {
+            $(this).removeClass('ativo');
+
+            itens += $($(this).children().children()[1]).html().substring(0, $($(this).children().children()[1]).html().indexOf('-') - 1) + ",";
+        });
+
+        $.ajax({
+            url: '@Url.Action("EnviaEmailNotificacao", "Home")',
+            dataType: "json",
+            data: { itens : itens }
+        });
     }
 
     var listaEventos = new Array();

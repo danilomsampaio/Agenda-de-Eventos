@@ -41,15 +41,20 @@ namespace Agenda_WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateContato(agdContato agdContato, HttpPostedFileBase foto, agdUsuario agdUsuario)
+        public ActionResult CreateContato(agdContato agdContato, HttpPostedFileBase foto, string agdUsuarioSenha)
         {
             if (ModelState.IsValid)
             {
-                agdContato.actFoto = "../Images/" + foto.FileName;
+                if (foto != null)
+                {
+                    agdContato.actFoto = "../Images/" + foto.FileName;
+                }
                 _serviceContato.CadastraContato(agdContato);
 
-                if (!String.IsNullOrEmpty(agdUsuario.ausSenha))
+                if (!String.IsNullOrEmpty(agdUsuarioSenha))
                 {
+                    agdUsuario agdUsuario = new agdUsuario();
+                    agdUsuario.ausSenha = agdUsuarioSenha;
                     agdUsuario.ausEmail = agdContato.actEmail;
                     _serviceUsuario.InsereContatoUsuario(_serviceContato.BuscaContatoUsuario(agdContato.actEmail).agdContatoID, agdUsuario);
 

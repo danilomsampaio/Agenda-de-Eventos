@@ -41,7 +41,7 @@ namespace Agenda.Model
         [Required(ErrorMessage = "Esse campo é obrigatório")]
         public string aevLocal { get; set; }
 
-
+        [Display(Name = "Descricao")]
         public string aevDescricao { get; set; }
 
 

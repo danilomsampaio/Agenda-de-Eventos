@@ -3,10 +3,7 @@
 
 
 @{
-    Layout = null;
-}
-@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Novo Contato";
     Layout = null;
 }
 
@@ -36,7 +33,14 @@
 </head>
 
 <body>
-
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li>@Html.ActionLink("Agenda", "Index", "Home")</li>
+            <li>@Html.ActionLink("Lista de Eventos", "Eventos", "Evento")</li>
+            <li>@Html.ActionLink("Criar Categoria de Evento", "CreateCategoriaEvento", "Manutencao")</li>
+            <li>@Html.ActionLink("Criar Novo Contato", "CreateContato", "Manutencao")</li>
+        </ul>
+    </div>
     <div class="row text-center">
         <div class="col-md-3"></div>
         <div class="col-md-6 ">
@@ -75,9 +79,10 @@
 
                         <div id="ativaUsuario" style="display: none;">
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Password</label>
+                                @Html.LabelFor(model => model.agdUsuario.ausSenha)
+                                @*<label for="exampleInputPassword1">Password</label>*@
                                 <div class="input-group">
-                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="agdUsuario.ausSenha">
+                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="agdUsuarioSenha">
                                     <span class="input-group-addon">
                                         <i class="fa fa-user font-red"></i>
                                     </span>
@@ -95,45 +100,58 @@
                                 <span class="input-group-addon input-circle-left">
                                     <i class="fa fa-users"></i>
                                 </span>
-                                @Html.EditorFor(model => model.actNome, new { htmlAttributes = new { @class = "form-control input-circle-right", placeholder = "Ex: email@email.com" } })
+                                @Html.EditorFor(model => model.actNome, new { htmlAttributes = new { @class = "form-control input-circle-right", placeholder = "Nome do Contato" } })
                                 @Html.ValidationMessageFor(model => model.actNome, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
                         <div class="form-group">
-                            <label>Sexo</label>
-                            <select class="form-control" name="agdContato.actSexo">
-                                <option value="1">Masculino</option>
-                                <option value="0">Feminino</option>
+                            @*<label>Sexo</label>*@
+                            @Html.LabelFor(model => model.actSexo)
+                            <select class="form-control" name="actSexo">
+                                <option value="true">Masculino</option>
+                                <option value="false">Feminino</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label>Telefone</label>
+                            @*<label>Telefone</label>*@
+                            @Html.LabelFor(model => model.actTelefone)
                             <div class="input-icon">
-                                <i class="fa fa-bell-o font-green"></i>
-                                <input type="text" name="agdContato.actTelefone" class="form-control" placeholder="Left icon">
+                                <i class="fa fa-phone font-green"></i>
+                                @Html.EditorFor(model => model.actTelefone, new { htmlAttributes = new { @class = "form-control input-circle-right", placeholder = "Telefone" } })
+                                @Html.ValidationMessageFor(model => model.actTelefone, "", new { @class = "text-danger" })
+                                @*<input type="text" name="agdContato.actTelefone" class="form-control" placeholder="Left icon">*@
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label">Data de Nascimento</label>
-                            <input class="form-control date-picker" type="text" name="agdContato.actDataNascimento" />
+                            @*<label class="control-label">Data de Nascimento</label>*@
+                            @Html.LabelFor(model => model.actDataNascimento)
+                            @*<input class="form-control date-picker" type="text" name="agdContato.actDataNascimento" />*@
+                            @Html.EditorFor(model => model.actDataNascimento, new { htmlAttributes = new { @class = "form-control", placeholder = "DD/MM/AAAA" } })
+                            @Html.ValidationMessageFor(model => model.actDataNascimento, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="form-group">
-                            <label>Endereco</label>
+                            @*<label>Endereco</label>*@
+                            @Html.LabelFor(model => model.actEndereco)
                             <div class="input-icon">
-                                <i class="fa fa-bell-o font-green"></i>
-                                <input type="text" name="agdContato.actEndereco" class="form-control" placeholder="Left icon">
+                                <i class="fa fa-home font-green"></i>
+                                @Html.EditorFor(model => model.actEndereco, new { htmlAttributes = new { @class = "form-control", placeholder = "Ex: Rua principal..." } })
+                                @Html.ValidationMessageFor(model => model.actEndereco, "", new { @class = "text-danger" })
+                                @*<input type="text" name="agdContato.actEndereco" class="form-control" placeholder="Left icon">*@
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label>Foto</label>
+                            @*<label>Foto</label>*@
+                            @Html.LabelFor(model => model.actFoto)
                             <div class="input-icon">
-                                <i class="fa fa-bell-o font-green"></i>
-                                <input type="file" class="form-control" placeholder="Left icon" name="foto">
+                                <i class="fa fa-camera font-green"></i>
+                                @Html.EditorFor(model => model.actFoto, new { htmlAttributes = new { @class = "form-control", type="file" } })
+                                @Html.ValidationMessageFor(model => model.actFoto, "", new { @class = "text-danger" })
+                                @*<input type="file" class="form-control" placeholder="Left icon" name="foto">*@
                             </div>
                         </div>
 
@@ -150,9 +168,6 @@
         </div>
     </div>
     <!-- END SAMPLE FORM PORTLET-->
-
-
-    <div class="copyright"> 2017 © Danilo Maglio Sampaio. </div>
 
 
     @section Scripts {

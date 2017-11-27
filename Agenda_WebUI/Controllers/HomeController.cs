@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using Agenda.Interafaces;
 using Agenda.Model;
 using Agenda.DTO;
+using System.IO;
+using System.Net.Mail;
+using System.Configuration;
 
 namespace Agenda_WebUI.Controllers
 {
@@ -17,7 +20,7 @@ namespace Agenda_WebUI.Controllers
         private IServiceUsuario _serviceUsuario;
 
         public HomeController(
-            IServiceCategoriaEvento serviceCategoriaEvento, 
+            IServiceCategoriaEvento serviceCategoriaEvento,
             IServiceContato serviceContato,
             IServiceEvento serviceEvento,
             IServiceUsuario serviceUsuario)
@@ -49,7 +52,10 @@ namespace Agenda_WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                agdEvento.aevFoto = "../Images/" + foto.FileName;
+                if (foto != null)
+                {
+                    agdEvento.aevFoto = "../Images/" + foto.FileName;
+                }
                 _serviceEvento.CriarEvento(agdEvento);
                 return RedirectToAction("Index");
             }
@@ -57,7 +63,8 @@ namespace Agenda_WebUI.Controllers
         }
 
         [HttpGet]
-        public JsonResult RetornaEventosMes() {
+        public JsonResult RetornaEventosMes()
+        {
 
             List<EventoDTO> listaEvento = new List<EventoDTO>();
             var lista = _serviceEvento.RetornaEventos();
@@ -72,7 +79,8 @@ namespace Agenda_WebUI.Controllers
                     DataHoraEvento = Convert.ToString(item.aevDataHora)
                 });
             }
-            return Json(new {
+            return Json(new
+            {
                 lista = listaEvento
             }, JsonRequestBehavior.AllowGet);
         }
@@ -84,7 +92,7 @@ namespace Agenda_WebUI.Controllers
 
             foreach (var id in eventos)
             {
-                if(!string.IsNullOrEmpty(id))
+                if (!string.IsNullOrEmpty(id))
                     _serviceEvento.RemoveEvento(Int32.Parse(id));
             }
         }
@@ -102,12 +110,13 @@ namespace Agenda_WebUI.Controllers
             if (ModelState.IsValid)
             {
                 var v = _serviceUsuario.UsuarioLogin(usuario);
-                if (v != null ||( usuario.ausEmail == "admin@admin.com" && usuario.ausSenha == "admin"))
+                if (v != null || (usuario.ausEmail == "admin@admin.com" && usuario.ausSenha == "admin"))
                 {
                     //permitir usuario admin
                     if (usuario.ausEmail == "admin@admin.com" && usuario.ausSenha == "admin")
                     {
-                        v = new agdUsuario {
+                        v = new agdUsuario
+                        {
                             agdUsuarioID = 0,
                             ausEmail = "admin@admin.com",
                             ausSenha = "admin"
@@ -120,5 +129,67 @@ namespace Agenda_WebUI.Controllers
             }
             return View(usuario);
         }
+
+        [HttpGet]
+        public ActionResult EnviaEmailNotificacao(string itens)
+        {
+            string[] eventos = itens.Split(',');
+            var contatos = _serviceContato.BuscaContatos();
+            string listaNomeEventos = "";
+
+            foreach (var id in eventos)
+            {
+                if (!String.IsNullOrEmpty(id))
+                {
+                    listaNomeEventos += _serviceEvento.BuscaNomeEvento(Int32.Parse(id)) + "<br />";
+                }
+            }
+
+            foreach (var item in contatos)
+            {
+                string body = this.PopulaCorpoEmail(item.actNome, listaNomeEventos);
+                this.EnviaEmailFormatado(item.actEmail, "Convite para eventos!", body);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+
+        private void EnviaEmailFormatado(string recepientEmail, string subject, string body)
+        {
+            using (MailMessage mailMessage = new MailMessage())
+            {
+                mailMessage.From = new MailAddress(ConfigurationManager.AppSettings["UserName"]);
+                mailMessage.Subject = subject;
+                mailMessage.Body = body;
+                mailMessage.IsBodyHtml = true;
+                mailMessage.To.Add(new MailAddress(recepientEmail));
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = ConfigurationManager.AppSettings["Host"];
+                smtp.EnableSsl = Convert.ToBoolean(ConfigurationManager.AppSettings["EnableSsl"]);
+                System.Net.NetworkCredential NetworkCred = new System.Net.NetworkCredential();
+                NetworkCred.UserName = ConfigurationManager.AppSettings["UserName"];
+                NetworkCred.Password = ConfigurationManager.AppSettings["Password"];
+                smtp.UseDefaultCredentials = true;
+                smtp.Credentials = NetworkCred;
+                smtp.Port = int.Parse(ConfigurationManager.AppSettings["Port"]);
+                smtp.Send(mailMessage);
+            }
+        }
+
+        private string PopulaCorpoEmail(string nomeContato, string eventos)
+        {
+            string body = string.Empty;
+            using (StreamReader reader = new StreamReader(Server.MapPath("~/Content/Template/TemplateEmail.html")))
+            {
+                body = reader.ReadToEnd();
+            }
+            body = body.Replace("[nomeContato]", nomeContato);
+
+            body = body.Replace("[listaEventos]", eventos);
+
+            return body;
+        }
+
+
     }
 }

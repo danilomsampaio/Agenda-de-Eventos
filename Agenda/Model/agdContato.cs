@@ -36,7 +36,7 @@ namespace Agenda.Model
         [Required(ErrorMessage = "Esse campo é obrigatório")]
         public bool actSexo { get; set; }
 
-
+        [Display(Name = "Telefone")]
         public string actTelefone { get; set; }
 
         [Display(Name = "Data de Nascimento")]

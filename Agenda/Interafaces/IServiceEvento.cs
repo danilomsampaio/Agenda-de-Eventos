@@ -20,5 +20,8 @@ namespace Agenda.Interafaces
 
         //metodo que remove evento com id enviado
         void RemoveEvento(int id);
+
+        //metodo que retorna o nome do evento
+        string BuscaNomeEvento(int idEvento);
     }
 }
