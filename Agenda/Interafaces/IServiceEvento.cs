@@ -17,5 +17,8 @@ namespace Agenda.Interafaces
 
         //metodo que busca todas os eventos já cadastradas no banco de dados no intervalo das datas informadas
         IList<agdEvento>RetornaEventosPorData(DateTime dataHoraInicio, DateTime dataHoraFim);
+
+        //metodo que remove evento com id enviado
+        void RemoveEvento(int id);
     }
 }

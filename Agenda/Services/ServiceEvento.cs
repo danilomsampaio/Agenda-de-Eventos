@@ -32,5 +32,12 @@ namespace Agenda.Services
                 .Where(x => x.aevDataHora >= dataHoraInicio && x.aevDataHora <= dataHoraFim)
                 .ToList();
         }
+
+        public void RemoveEvento(int id)
+        {
+            agdEvento agdEvento = db.agdEvento.Find(id);
+            db.agdEvento.Remove(agdEvento);
+            db.SaveChanges();
+        }
     }
 }

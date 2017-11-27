@@ -24,6 +24,12 @@
     <link href="~/Content/layout.min.css" rel="stylesheet" />
     <link href="~/Content/blue.min.css" rel="stylesheet" />
 
+    <style>
+        .ativo {
+            border: 1px solid black !important;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -35,15 +41,24 @@
                         <i class=" icon-layers font-green"></i>
                         <span class="caption-subject font-green sbold uppercase">Agenda</span>
                     </div>
-                    <button onclick="incluirEvento()" style="margin-left: -70px;" class="btn btn-icon-only green">
-                        <i class="fa fa-plus"></i>
-                    </button>
+                    
                 </div>
                 <div class="portlet-body">
                     <div class="row">
-                        <div class="col-md-9 col-sm-12">
+                        <div class="col-md-9 col-sm-11">
                             <div id="calendar" class="has-toolbar">
                             </div>
+                        </div>
+                        <div class="col-md-3 col-sm-1" style="margin-left: -140px;">
+                            <button onclick="notificarEventos()" class="btn btn-icon-only yellow" title="Notificar Contatos Sobre Eventos Selecionados">
+                                <i class="glyphicon glyphicon-alert"></i>
+                            </button>
+                            <button onclick="removerEventos()" class="btn btn-icon-only red" title="Remover Eventos Selecionados">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </button>
+                            <button onclick="incluirEvento()" class="btn btn-icon-only green" title="Incluir Novo Evento">
+                                <i class="fa fa-plus"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -52,6 +67,109 @@
     </div>
 
     <div class="copyright"> 2017 © Danilo Maglio Sampaio. </div>
+
+
+
+
+
+    <div id="modalEvento" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Cadastrar Evento</h4>
+                </div>
+
+                <form action="@Url.Action("CreateEvento")" method="post" class="form-horizontal" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+
+                    <div class="modal-body">
+                        <div class="form-body">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.aevNome, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-7">
+                                    @Html.EditorFor(model => model.aevNome, new { htmlAttributes = new { @class = "form-control input-circle-left", placeholder = "Nome do Evento" } })
+                                    @Html.ValidationMessageFor(model => model.aevNome, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.aevFoto, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-7">
+                                    <div class="input-group">
+                                        <span class="input-group-addon input-circle-left">
+                                            <i class="fa fa-camera"></i>
+                                        </span>
+                                        <input type="file" class="form-control" placeholder="Left icon" name="foto">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.aevDataHora, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-7">
+                                    <div class="input-group" id="dataHoraEvento">
+                                        @Html.EditorFor(model => model.aevDataHora, new { htmlAttributes = new { @class = "form-control input-circle-left", placeholder = "Nome do Evento" } })
+                                        @Html.ValidationMessageFor(model => model.aevDataHora, "", new { @class = "text-danger" })
+                                        <span class="input-group-addon input-circle-right">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.aevLocal, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-7">
+                                    @Html.EditorFor(model => model.aevLocal, new { htmlAttributes = new { @class = "form-control input-circle", placeholder = "Nome do Evento" } })
+                                    @Html.ValidationMessageFor(model => model.aevLocal, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.aevDescricao, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-7">
+                                    @Html.TextAreaFor(model => model.aevDescricao, new { @class = "form-control", placeholder = "Nome do Evento" })
+                                    @Html.ValidationMessageFor(model => model.aevDescricao, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Organizador</label>
+                                <div class="col-md-7">
+                                    <select class="form-control" name="agdContatoID">
+                                        @foreach (var contato in ViewBag.Contato)
+                                        {
+                                            <option value="@contato.agdContatoID">@contato.actNome</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Categoria</label>
+                                <div class="col-md-7">
+                                    <select class="form-control" name="agdCategoriaEventoID">
+                                        @foreach (var categoria in ViewBag.Categoria)
+                                        {
+                                            <option value="@categoria.agdCategoriaEventoID">@categoria.aceNome</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-circle green">Salvar</button>
+                            <button type="button" class="btn btn-circle grey-salsa btn-outline" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
 
     <script src="~/Scripts/jquery.min.js"></script>
     <script src="~/Scripts/moment.min.js"></script>
@@ -64,131 +182,10 @@
     <script src="~/Scripts/fullcalendar.min.js"></script>
     <script src="~/Scripts/jquery-ui.min.js"></script>
     <script src="~/Scripts/app.min.js"></script>
-    <script src="~/Scripts/calendar.js"></script>
     <script src="~/Scripts/layout.min.js"></script>
     <script src="~/Scripts/demo.min.js"></script>
 
-
-
-
-</body>
-</html>
-
-
-<div id="modalEvento" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Cadastrar Evento</h4>
-            </div>
-
-            <form action="@Url.Action("CreateEvento")" method="post" class="form-horizontal" enctype="multipart/form-data">
-                @Html.AntiForgeryToken()
-
-                <div class="modal-body">
-                    <div class="form-body">
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.aevNome, new { @class = "col-md-3 control-label" })
-                            <div class="col-md-7">
-                                @Html.EditorFor(model => model.aevNome, new { htmlAttributes = new { @class = "form-control input-circle-left", placeholder = "Nome do Evento" } })
-                                @Html.ValidationMessageFor(model => model.aevNome, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.aevFoto, new { @class = "col-md-3 control-label" })
-                            <div class="col-md-7">
-                                <div class="input-group">
-                                    <span class="input-group-addon input-circle-left">
-                                        <i class="fa fa-camera"></i>
-                                    </span>
-                                    <input type="file" class="form-control" placeholder="Left icon" name="foto">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.aevDataHora, new { @class = "col-md-3 control-label" })
-                            <div class="col-md-7">
-                                <div class="input-group" id="dataHoraEvento">
-                                    @Html.EditorFor(model => model.aevDataHora, new { htmlAttributes = new { @class = "form-control input-circle-left", placeholder = "Nome do Evento" } })
-                                    @Html.ValidationMessageFor(model => model.aevDataHora, "", new { @class = "text-danger" })
-                                    <span class="input-group-addon input-circle-right">
-                                        <i class="fa fa-calendar"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.aevLocal, new { @class = "col-md-3 control-label" })
-                            <div class="col-md-7">
-                                    @Html.EditorFor(model => model.aevLocal, new { htmlAttributes = new { @class = "form-control input-circle", placeholder = "Nome do Evento" } })
-                                    @Html.ValidationMessageFor(model => model.aevLocal, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.aevDescricao, new { @class = "col-md-3 control-label" })
-                            <div class="col-md-7">
-                                @Html.TextAreaFor(model => model.aevDescricao, new { @class = "form-control", placeholder = "Nome do Evento" })
-                                @Html.ValidationMessageFor(model => model.aevDescricao, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Organizador</label>
-                            <div class="col-md-7">
-                                <select class="form-control" name="agdContatoID"> 
-                                    @foreach (var contato in ViewBag.Contato)
-                                    {
-                                        <option value="@contato.agdContatoID">@contato.actNome</option>
-                                    }
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Categoria</label>
-                            <div class="col-md-7">
-                                <select class="form-control" name="agdCategoriaEventoID">
-                                    @foreach (var categoria in ViewBag.Categoria)
-                                    {
-                                        <option value="@categoria.agdCategoriaEventoID">@categoria.aceNome</option>
-                                    }
-                                </select>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-circle green">Salvar</button>
-                        <button type="button" class="btn btn-circle grey-salsa btn-outline" data-dismiss="modal">Cancelar</button>
-                    </div>
-                </div>
-            </form>
-
-        </div>
-    </div>
-</div>
-
-@{ 
-    var listaEventos = new List<Agenda.Model.agdEvento>();
-
-    var listaEventosTotal = ViewBag.Eventos;
-
-    for (var i = 0; i < listaEventosTotal.Count; i++)
-    {
-        if (ViewBag.Eventos[i].aevDataHora.Month == DateTime.Now.Month)
-        {
-            listaEventos.Add(ViewBag.Eventos[i]);
-        }
-    }
-}
-
-<script type="text/javascript">
+    <script type="text/javascript">
     $(function () {
         $('#dataHoraEvento').datetimepicker({
             format: 'DD/MM/YYYY HH:mm'
@@ -199,56 +196,97 @@
         $('#modalEvento').modal();
     }
 
+    function removerEventos() {
+        console.log($('.ativo'));
+
+
+
+        $('.ativo').hide();
+
+        var itens = "";
+
+        $('.ativo').each(function () {
+            $(this).removeClass('ativo');
+            
+            itens += $($(this).children().children()[1]).html().substring(0, $($(this).children().children()[1]).html().indexOf('-') - 1) + ",";
+        });
+
+        $.ajax({
+            url: '@Url.Action("RemoveEventos", "Home")',
+            dataType: "json",
+            data: { itens : itens }
+        });
+    }
+    //falta implementar
+    function notificarEventos() {
+
+    }
+
+    var listaEventos = new Array();
+
+
     $(document).ready(function () {
-        [{
-            title: "All Day Event",
-            start: new Date(n, a, 1),
-            backgroundColor: App.getBrandColor("yellow")
-        }, {
-            title: "Long Event",
-            start: new Date(n, a, t - 5),
-            end: new Date(n, a, t - 2),
-            backgroundColor: App.getBrandColor("green")
-        }, {
-            title: "Repeating Event",
-            start: new Date(n, a, t - 3, 16, 0),
-            allDay: !1,
-            backgroundColor: App.getBrandColor("red")
-        }, {
-            title: "Repeating Event",
-            start: new Date(n, a, t + 4, 16, 0),
-            allDay: !1,
-            backgroundColor: App.getBrandColor("green")
-        }, {
-            title: "Meeting",
-            start: new Date(n, a, t, 10, 30),
-            allDay: !1
-        }, {
-            title: "Lunch",
-            start: new Date(n, a, t, 12, 0),
-            end: new Date(n, a, t, 14, 0),
-            backgroundColor: App.getBrandColor("grey"),
-            allDay: !1
-        }, {
-            title: "Birthday Party",
-            start: new Date(n, a, t + 1, 19, 0),
-            end: new Date(n, a, t + 1, 22, 30),
-            backgroundColor: App.getBrandColor("purple"),
-            allDay: !1
-        }, {
-            title: "Click for Google",
-            start: new Date(n, a, 28),
-            end: new Date(n, a, 29),
-            backgroundColor: App.getBrandColor("yellow"),
-            url: "http://google.com/"
-        }]
+        $.ajax({
+            url: '@Url.Action("RetornaEventosMes", "Home")',
+                async: false,
+                success: function (data) {
+                    for (var i = 0; i < data.lista.length; i++) {
+
+                        var dataEvento = data.lista[i].DataHoraEvento;
+
+                        var evento = {
+                            title: data.lista[i].EventoID + " - " + data.lista[i].EventoNome,
+                            start: new Date(dataEvento.substring(6, 6 + 4), dataEvento.substring(3, 3 + 2) - 1, dataEvento.substring(0, 0 + 2)),
+                            backgroundColor: App.getBrandColor(data.lista[i].CategoriaCor.toLowerCase())
+                        };
+
+                        listaEventos.push(evento);
+                    }
+                }
+            });
+
+            var AppCalendar = function () {
+                return {
+                    init: function () { this.initCalendar() }, initCalendar: function () {
+                        if (jQuery().fullCalendar) {
+                            var e = new Date, t = e.getDate(), a = e.getMonth(), n = e.getFullYear(), r = {}; App.isRTL() ? $("#calendar").parents(".portlet").width() <= 720 ? ($("#calendar").addClass("mobile"), r = { right: "title, prev, next", center: "", left: "agendaDay, agendaWeek, month, today" }) : ($("#calendar").removeClass("mobile"), r = { right: "title", center: "", left: "agendaDay, agendaWeek, month, today, prev,next" }) : $("#calendar").parents(".portlet").width() <= 720 ? ($("#calendar").addClass("mobile"), r = { left: "title, prev, next", center: "", right: "today,month,agendaWeek,agendaDay" }) : ($("#calendar").removeClass("mobile"), r = { left: "title", center: "", right: "prev,next,today,month,agendaWeek,agendaDay" }); var l = function (e) { var t = { title: $.trim(e.text()) }; e.data("eventObject", t), e.draggable({ zIndex: 999, revert: !0, revertDuration: 0 }) }, o = function (e) { e = 0 === e.length ? "Untitled Event" : e; var t = $('<div class="external-event label label-default">' + e + "</div>"); jQuery("#event_box").append(t), l(t) }; $("#external-events div.external-event").each(function () { l($(this)) }), $("#event_add").unbind("click").click(function () { var e = $("#event_title").val(); o(e) }), $("#event_box").html(""), o("My Event 1"), o("My Event 2"), o("My Event 3"), o("My Event 4"), o("My Event 5"), o("My Event 6"), $("#calendar").fullCalendar("destroy"), $("#calendar").fullCalendar({
+                                header: r, defaultView: "month", slotMinutes: 15, editable: !0, droppable: !0, drop: function (e, t) { var a = $(this).data("eventObject"), n = $.extend({}, a); n.start = e, n.allDay = t, n.className = $(this).attr("data-class"), $("#calendar").fullCalendar("renderEvent", n, !0), $("#drop-remove").is(":checked") && $(this).remove() },
+                                events: listaEventosFuncao()
+                            })
+                        }
+                    }
+                }
+            }();
 
 
-        for (var i = 0; i < listaEventos.lenght; i++) {
+            AppCalendar.init();
 
+
+            $('.fc-day-grid-event').click(function () {
+                if ($(this).hasClass('ativo')) {
+                    $(this).removeClass("ativo");
+                } else {
+                    $(this).addClass('ativo');
+                }
+            });
+
+            $('.fc-today-button').hide();
+            $('.fc-agendaWeek-button').hide();
+            $('.fc-agendaDay-button').hide();
+
+        });
+
+        function listaEventosFuncao() {
+            return listaEventos;
         }
 
 
-        AppCalendar.init();
-    });
-</script>
+
+    </script>
+
+    <script src="~/Scripts/calendar.min.js"></script>
+
+
+
+</body>
+</html>

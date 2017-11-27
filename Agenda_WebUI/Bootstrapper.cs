@@ -30,6 +30,8 @@ namespace Agenda_WebUI
             container.RegisterType<IServiceUsuario, ServiceUsuario>();
             container.RegisterType<IServiceConvite, ServiceConvite>();
             container.RegisterType<IServiceCategoriaEvento, ServiceCategoriaEvento>();
+            container.RegisterType<AccountController>(new InjectionConstructor());
+            container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>();
             // e.g. container.RegisterType<ITestService, TestService>();            
 
             return container;

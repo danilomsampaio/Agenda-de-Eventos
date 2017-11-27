@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Agenda.Interafaces;
 using Agenda.Model;
+using Agenda.DTO;
 
 namespace Agenda_WebUI.Controllers
 {
@@ -47,11 +48,37 @@ namespace Agenda_WebUI.Controllers
         [HttpGet]
         public JsonResult RetornaEventosMes() {
 
+            List<EventoDTO> listaEvento = new List<EventoDTO>();
             var lista = _serviceEvento.RetornaEventos();
 
-            return Json({
-                data: lista
-            }, new JsonResult());
+            foreach (var item in lista)
+            {
+                listaEvento.Add(new EventoDTO
+                {
+                    EventoID = item.agdEventoID,
+                    EventoNome = item.aevNome,
+                    CategoriaCor = item.agdCategoriaEvento.aceCor,
+                    DataHoraEvento = Convert.ToString(item.aevDataHora)
+                });
+            }
+
+
+
+            return Json(new {
+                lista = listaEvento
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public void RemoveEventos(string itens)
+        {
+            string[] eventos = itens.Split(',');
+
+            foreach (var id in eventos)
+            {
+                if(!string.IsNullOrEmpty(id))
+                    _serviceEvento.RemoveEvento(Int32.Parse(id));
+            }
         }
     }
 }
