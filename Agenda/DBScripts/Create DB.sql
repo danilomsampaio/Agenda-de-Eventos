@@ -1,178 +1,124 @@
--- Gerado por Oracle SQL Developer Data Modeler 17.3.0.261.1529
---   em:        2017-11-24 20:04:27 BRST
---   site:      SQL Server 2012
---   tipo:      SQL Server 2012
-
-
-
-CREATE TABLE agdContato 
-    (
-     agdContatoID INTEGER IDENTITY(1,1), 
-     agdUsuarioID INTEGER NOT NULL , 
-     actNome VARCHAR (100) NOT NULL , 
-     actSexo BIT NOT NULL , 
-     actTelefone VARCHAR (20) , 
-     actDataNascimento DATE NOT NULL , 
-     actEndereco VARCHAR (120) , 
-     actFoto VARCHAR (200) 
-    )
-    ON "default"
+USE [AgendaProvaEvolua]
 GO
-
-ALTER TABLE agdContato ADD CONSTRAINT agdContato_PK PRIMARY KEY CLUSTERED (agdContatoID)
-     WITH (
-     ALLOW_PAGE_LOCKS = ON , 
-     ALLOW_ROW_LOCKS = ON )
-     ON "default" 
-    GO
-
-CREATE TABLE agdConvite 
-    (
-     agdConviteID INTEGER IDENTITY(1,1), 
-     agdContatoIDConvidado INTEGER NOT NULL , 
-     agdContatoIDEmissor INTEGER NOT NULL , 
-     agdEventoID INTEGER NOT NULL , 
-     acvDataHoraEnvio DATETIME NOT NULL , 
-     acvConfirmado BIT NOT NULL 
-    )
-    ON "default"
+/****** Object:  Table [dbo].[agdCategoriaEvento]    Script Date: 27/11/2017 17:18:02 ******/
+SET ANSI_NULLS ON
 GO
-
-ALTER TABLE agdConvite ADD CONSTRAINT agdConvite_PK PRIMARY KEY CLUSTERED (agdConviteID)
-     WITH (
-     ALLOW_PAGE_LOCKS = ON , 
-     ALLOW_ROW_LOCKS = ON )
-     ON "default" 
-    GO
-
-CREATE TABLE agdEvento 
-    (
-     agdEventoID INTEGER IDENTITY(1,1), 
-     agdContatoID INTEGER NOT NULL , 
-     aevNome VARCHAR (100) NOT NULL , 
-     aevFoto VARCHAR (200) , 
-     aevDataHora DATETIME NOT NULL , 
-     aevLocal VARCHAR (200) NOT NULL , 
-     aevDescricao VARCHAR (1000) NOT NULL 
-    )
-    ON "default"
+SET QUOTED_IDENTIFIER ON
 GO
-
-ALTER TABLE agdEvento ADD CONSTRAINT agdEvento_PK PRIMARY KEY CLUSTERED (agdEventoID)
-     WITH (
-     ALLOW_PAGE_LOCKS = ON , 
-     ALLOW_ROW_LOCKS = ON )
-     ON "default" 
-    GO
-
-CREATE TABLE agdUsuario 
-    (
-     agdUsuarioID INTEGER IDENTITY(1,1), 
-     ausEmail VARCHAR (254) NOT NULL UNIQUE , 
-     ausSenha VARCHAR (12) NOT NULL 
-    )
-    ON "default"
+CREATE TABLE [dbo].[agdCategoriaEvento](
+	[agdCategoriaEventoID] [int] IDENTITY(1,1) NOT NULL,
+	[aceNome] [varchar](50) NOT NULL,
+	[aceCor] [varchar](20) NULL,
+ CONSTRAINT [agdCategoriaEvento_PK] PRIMARY KEY CLUSTERED 
+(
+	[agdCategoriaEventoID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 GO
-
-ALTER TABLE agdUsuario ADD CONSTRAINT agdUsuario_PK PRIMARY KEY CLUSTERED (agdUsuarioID)
-     WITH (
-     ALLOW_PAGE_LOCKS = ON , 
-     ALLOW_ROW_LOCKS = ON )
-     ON "default" 
-    GO
-
-ALTER TABLE agdContato 
-    ADD CONSTRAINT agdContato_agdUsuario_FK FOREIGN KEY 
-    ( 
-     agdUsuarioID
-    ) 
-    REFERENCES agdUsuario 
-    ( 
-     agdUsuarioID 
-    ) 
-    ON DELETE NO ACTION 
-    ON UPDATE NO ACTION 
+/****** Object:  Table [dbo].[agdContato]    Script Date: 27/11/2017 17:18:03 ******/
+SET ANSI_NULLS ON
 GO
-
-ALTER TABLE agdConvite 
-    ADD CONSTRAINT agdConvite_agdContato_FK FOREIGN KEY 
-    ( 
-     agdContatoIDConvidado
-    ) 
-    REFERENCES agdContato 
-    ( 
-     agdContatoID 
-    ) 
-    ON DELETE NO ACTION 
-    ON UPDATE NO ACTION 
+SET QUOTED_IDENTIFIER ON
 GO
-
-ALTER TABLE agdConvite 
-    ADD CONSTRAINT agdConvite_agdContato_FKv2 FOREIGN KEY 
-    ( 
-     agdContatoIDEmissor
-    ) 
-    REFERENCES agdContato 
-    ( 
-     agdContatoID 
-    ) 
-    ON DELETE NO ACTION 
-    ON UPDATE NO ACTION 
+CREATE TABLE [dbo].[agdContato](
+	[agdContatoID] [int] IDENTITY(1,1) NOT NULL,
+	[agdUsuarioID] [int] NULL,
+	[actNome] [varchar](100) NOT NULL,
+	[actSexo] [bit] NOT NULL,
+	[actTelefone] [varchar](20) NULL,
+	[actDataNascimento] [date] NOT NULL,
+	[actEndereco] [varchar](120) NULL,
+	[actFoto] [varchar](200) NULL,
+	[actEmail] [varchar](254) NULL,
+ CONSTRAINT [agdContato_PK] PRIMARY KEY CLUSTERED 
+(
+	[agdContatoID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [agdContato_Email] UNIQUE NONCLUSTERED 
+(
+	[actEmail] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 GO
-
-ALTER TABLE agdConvite 
-    ADD CONSTRAINT agdConvite_agdEvento_FK FOREIGN KEY 
-    ( 
-     agdEventoID
-    ) 
-    REFERENCES agdEvento 
-    ( 
-     agdEventoID 
-    ) 
-    ON DELETE NO ACTION 
-    ON UPDATE NO ACTION 
+/****** Object:  Table [dbo].[agdEvento]    Script Date: 27/11/2017 17:18:03 ******/
+SET ANSI_NULLS ON
 GO
-
-ALTER TABLE agdEvento 
-    ADD CONSTRAINT agdEvento_agdContato_FK FOREIGN KEY 
-    ( 
-     agdContatoID
-    ) 
-    REFERENCES agdContato 
-    ( 
-     agdContatoID 
-    ) 
-    ON DELETE NO ACTION 
-    ON UPDATE NO ACTION 
+SET QUOTED_IDENTIFIER ON
 GO
+CREATE TABLE [dbo].[agdEvento](
+	[agdEventoID] [int] IDENTITY(1,1) NOT NULL,
+	[agdContatoID] [int] NOT NULL,
+	[aevNome] [varchar](100) NOT NULL,
+	[aevFoto] [varchar](200) NULL,
+	[aevDataHora] [datetime] NOT NULL,
+	[aevLocal] [varchar](200) NOT NULL,
+	[aevDescricao] [varchar](1000) NOT NULL,
+	[agdCategoriaEventoID] [int] NOT NULL,
+ CONSTRAINT [agdEvento_PK] PRIMARY KEY CLUSTERED 
+(
+	[agdEventoID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[agdUsuario]    Script Date: 27/11/2017 17:18:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[agdUsuario](
+	[agdUsuarioID] [int] IDENTITY(1,1) NOT NULL,
+	[ausEmail] [varchar](254) NOT NULL,
+	[ausSenha] [varchar](12) NOT NULL,
+ CONSTRAINT [agdUsuario_PK] PRIMARY KEY CLUSTERED 
+(
+	[agdUsuarioID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+UNIQUE NONCLUSTERED 
+(
+	[ausEmail] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[agdContato]  WITH CHECK ADD  CONSTRAINT [agdContato_agdUsuario_FK] FOREIGN KEY([agdUsuarioID])
+REFERENCES [dbo].[agdUsuario] ([agdUsuarioID])
+GO
+ALTER TABLE [dbo].[agdContato] CHECK CONSTRAINT [agdContato_agdUsuario_FK]
+GO
+ALTER TABLE [dbo].[agdEvento]  WITH CHECK ADD  CONSTRAINT [agdEvento_agdCategoriaEvento_FK] FOREIGN KEY([agdCategoriaEventoID])
+REFERENCES [dbo].[agdCategoriaEvento] ([agdCategoriaEventoID])
+GO
+ALTER TABLE [dbo].[agdEvento] CHECK CONSTRAINT [agdEvento_agdCategoriaEvento_FK]
+GO
+ALTER TABLE [dbo].[agdEvento]  WITH CHECK ADD  CONSTRAINT [agdEvento_agdContato_FK] FOREIGN KEY([agdContatoID])
+REFERENCES [dbo].[agdContato] ([agdContatoID])
+GO
+ALTER TABLE [dbo].[agdEvento] CHECK CONSTRAINT [agdEvento_agdContato_FK]
+GO
+/****** Object:  StoredProcedure [dbo].[sp_insereUsuario]    Script Date: 27/11/2017 17:18:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[sp_insereUsuario] @contatoID INT, 
+								@email VARCHAR(254),
+								@senha VARCHAR(12)
+AS
 
+BEGIN 
+	INSERT INTO agdUsuario (ausEmail, ausSenha)
+	VALUES (@email, @senha)
 
+	DECLARE @usuarioID INT = 0
+	
+	SELECT @usuarioID = SCOPE_IDENTITY()
 
--- Relatório do Resumo do Oracle SQL Developer Data Modeler: 
--- 
--- CREATE TABLE                             4
--- CREATE INDEX                             0
--- ALTER TABLE                              9
--- CREATE VIEW                              0
--- ALTER VIEW                               0
--- CREATE PACKAGE                           0
--- CREATE PACKAGE BODY                      0
--- CREATE PROCEDURE                         0
--- CREATE FUNCTION                          0
--- CREATE TRIGGER                           0
--- ALTER TRIGGER                            0
--- CREATE DATABASE                          0
--- CREATE DEFAULT                           0
--- CREATE INDEX ON VIEW                     0
--- CREATE ROLLBACK SEGMENT                  0
--- CREATE ROLE                              0
--- CREATE RULE                              0
--- CREATE SCHEMA                            0
--- CREATE SEQUENCE                          0
--- CREATE PARTITION FUNCTION                0
--- CREATE PARTITION SCHEME                  0
--- 
--- DROP DATABASE                            0
--- 
--- ERRORS                                   0
--- WARNINGS                                 0
+	IF(@usuarioID <> 0)
+	BEGIN
+		UPDATE agdContato 
+		SET agdUsuarioID = @usuarioID
+		WHERE agdContatoID = @contatoID
+	END
+
+END
+			
+GO
